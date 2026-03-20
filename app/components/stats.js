@@ -53,7 +53,6 @@ export default function Stats() {
                 key={student.name}
                 className="student-card"
                 style={{ "--progress": `${progress}%` }}
-                tabIndex={0}
                 aria-label={`${student.name} ${formatPoints(
                   student.points,
                 )} out of ${formatPoints(leaderboardMaxPoints)} points`}
@@ -162,7 +161,13 @@ export default function Stats() {
               type="button"
               aria-label="Share streak"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
                 <path
                   d="M14 4H20V10"
                   stroke="currentColor"
@@ -201,7 +206,7 @@ export default function Stats() {
               <div className="stats-streak-text">day streak!</div>
             </div>
             <div className="stats-streak-mascot" aria-hidden="true">
-              <svg viewBox="0 0 120 120">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
                 <defs>
                   <linearGradient id="streakGlow" x1="0" x2="1">
                     <stop offset="0%" stopColor="#ffe08a" />
@@ -229,7 +234,7 @@ export default function Stats() {
 
           <div className="stats-streak-callout">
             <span className="stats-streak-callout-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M12 3C9 6 7 9 7 12C7 16 9.5 19 12 19C14.5 19 17 16 17 12C17 9 15 6 12 3Z"
                   fill="#ffcf66"

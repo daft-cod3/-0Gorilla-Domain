@@ -1,4 +1,4 @@
-import { Space_Grotesk, Source_Sans_3 } from "next/font/google";
+import { Source_Sans_3, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "./components/theme-provider";
 

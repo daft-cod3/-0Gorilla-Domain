@@ -3548,3 +3548,1218 @@ button:focus-visible,
     right: 8px;
   }
 }
+
+:root {
+  --glass-surface: rgba(255, 255, 255, 0.72);
+  --glass-strong: rgba(255, 255, 255, 0.84);
+  --glass-border: rgba(202, 214, 196, 0.9);
+  --glass-shadow: 0 28px 60px rgba(17, 41, 17, 0.12);
+}
+
+[data-theme="dark"] {
+  --glass-surface: rgba(20, 27, 22, 0.76);
+  --glass-strong: rgba(24, 33, 27, 0.9);
+  --glass-border: rgba(64, 83, 68, 0.92);
+  --glass-shadow: 0 32px 60px rgba(0, 0, 0, 0.36);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sidebar {
+  gap: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(111, 229, 31, 0.16), transparent 34%),
+    linear-gradient(180deg, var(--glass-strong), var(--glass-surface));
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px);
+  box-shadow: var(--glass-shadow);
+}
+
+.profile-copy {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile-status {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(99, 195, 21, 0.14);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.profile-progress,
+.streak-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(99, 195, 21, 0.12);
+  overflow: hidden;
+}
+
+.profile-progress span,
+.streak-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #73d82b, #ffd166);
+}
+
+.nav-link {
+  gap: 14px;
+  padding: 14px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, rgba(99, 195, 21, 0.18), rgba(99, 195, 21, 0.08));
+  color: var(--text);
+  border-color: rgba(99, 195, 21, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(99, 195, 21, 0.08);
+}
+
+[data-theme="dark"] .nav-link.active {
+  color: #eef7ec;
+}
+
+.nav-icon {
+  flex: 0 0 28px;
+  display: grid;
+  place-items: center;
+  color: var(--text);
+}
+
+.nav-icon svg,
+.sidebar-utility-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.nav-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.nav-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nav-caption {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.sidebar-section {
+  display: grid;
+  gap: 12px;
+}
+
+.sidebar-section-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.sidebar-utility-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sidebar-utility-link {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 12px 10px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  backdrop-filter: blur(16px);
+}
+
+.sidebar-utility-link.active {
+  background: rgba(99, 195, 21, 0.14);
+  border-color: rgba(99, 195, 21, 0.24);
+}
+
+.sidebar-utility-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(99, 195, 21, 0.12);
+  color: var(--text);
+}
+
+.streak-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent),
+    rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px);
+}
+
+.streak-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.streak-pill {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 209, 102, 0.18);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-panel,
+.live-hero,
+.notifications-hero,
+.messages-hero,
+.lesson-hero {
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.24), transparent 38%),
+    linear-gradient(180deg, var(--glass-strong), var(--glass-surface));
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(28px);
+  box-shadow: var(--glass-shadow);
+}
+
+.dash-search,
+.dash-icon,
+.dash-live,
+.teacher-card,
+.dash-course-card,
+.dash-rail-card,
+.live-card,
+.messages-sidebar,
+.messages-window,
+.notification-card,
+.lesson-page-card {
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(22px);
+}
+
+.dash-live,
+.dash-icon,
+.dash-hero-button,
+.dash-link,
+.dash-rail-action,
+.teacher-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-live {
+  min-width: 72px;
+  border: 1px solid rgba(255, 107, 107, 0.22);
+}
+
+.dash-icon {
+  text-decoration: none;
+}
+
+.dash-link {
+  padding: 0;
+}
+
+.teacher-card-link {
+  min-height: 240px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.teacher-card.violet {
+  background:
+    linear-gradient(180deg, rgba(124, 123, 255, 0.12), transparent 45%),
+    var(--glass-strong);
+}
+
+.teacher-card.rose {
+  background:
+    linear-gradient(180deg, rgba(255, 143, 177, 0.12), transparent 45%),
+    var(--glass-strong);
+}
+
+.teacher-card.gold {
+  background:
+    linear-gradient(180deg, rgba(255, 183, 3, 0.14), transparent 45%),
+    var(--glass-strong);
+}
+
+.teacher-card.mint {
+  background:
+    linear-gradient(180deg, rgba(139, 214, 194, 0.12), transparent 45%),
+    var(--glass-strong);
+}
+
+.teacher-summary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.teacher-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.teacher-card-status {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.teacher-action {
+  min-height: 34px;
+}
+
+.dash-course-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.dash-card-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dash-card-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(99, 195, 21, 0.12);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dash-rail-action {
+  text-decoration: none;
+}
+
+.learn-main-content {
+  min-width: 0;
+}
+
+.learn-shell {
+  width: 100%;
+  min-height: 100%;
+  padding: 0;
+  display: block;
+}
+
+.learn-phone {
+  width: 100%;
+  min-height: calc(100vh - 56px);
+  padding: 20px;
+  border-radius: 36px;
+  background:
+    radial-gradient(circle at top right, rgba(104, 207, 32, 0.16), transparent 24%),
+    radial-gradient(circle at bottom left, rgba(255, 214, 64, 0.12), transparent 22%),
+    linear-gradient(180deg, var(--glass-strong), var(--glass-surface));
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(28px);
+  box-shadow: var(--glass-shadow);
+}
+
+.learn-main-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.learn-scroll-frame {
+  min-height: 620px;
+}
+
+.path-area {
+  position: relative;
+  min-height: 620px;
+  margin-top: 0;
+  padding: 18px 18px 108px;
+  border-radius: 32px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 40%),
+    var(--glass-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 24px 44px rgba(17, 41, 17, 0.08);
+}
+
+[data-theme="dark"] .path-area {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 40%),
+    var(--glass-strong);
+}
+
+.path-header {
+  margin: 0 0 18px;
+}
+
+.learn-journey::before {
+  inset: 16px 8% 24px;
+  background:
+    radial-gradient(circle at 20% 8%, rgba(96, 201, 28, 0.24), transparent 16%),
+    radial-gradient(circle at 82% 36%, rgba(96, 201, 28, 0.18), transparent 18%),
+    radial-gradient(circle at 32% 78%, rgba(255, 214, 64, 0.16), transparent 16%);
+}
+
+.learn-journey::after {
+  width: 46%;
+}
+
+.journey-node,
+.journey-label {
+  text-decoration: none;
+}
+
+.journey-label {
+  backdrop-filter: blur(14px);
+}
+
+.learn-detail-sheet {
+  position: sticky;
+  top: 24px;
+  margin-top: 0;
+  padding: 20px;
+  min-height: 560px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 38%),
+    var(--glass-strong);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px);
+  box-shadow: var(--glass-shadow);
+}
+
+.detail-summary {
+  align-items: flex-start;
+}
+
+.detail-summary p {
+  flex: 1;
+}
+
+.detail-summary-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.detail-inline-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(99, 195, 21, 0.12);
+  border: 1px solid rgba(99, 195, 21, 0.2);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.learn-scroll-top {
+  backdrop-filter: blur(18px);
+}
+
+.learn-bottom-nav {
+  margin-top: 18px;
+  padding-top: 14px;
+}
+
+.live-page,
+.messages-page,
+.notifications-page,
+.lesson-page {
+  display: grid;
+  gap: 20px;
+}
+
+.live-hero,
+.messages-hero,
+.notifications-hero {
+  padding: 24px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.live-eyebrow,
+.messages-eyebrow,
+.notifications-eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.live-title,
+.messages-title,
+.notifications-title,
+.lesson-page-title {
+  margin: 8px 0 10px;
+  font-size: 30px;
+  font-family: var(--font-display), "Space Grotesk", sans-serif;
+}
+
+.live-subtitle,
+.messages-subtitle,
+.notifications-subtitle,
+.lesson-page-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.live-hero-link,
+.live-session-action,
+.lesson-primary-link,
+.messages-send {
+  border: none;
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7be12f, #ffd166);
+  color: #173313;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.live-grid,
+.lesson-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) 320px;
+  gap: 18px;
+}
+
+.live-card,
+.messages-sidebar,
+.messages-window,
+.notification-card,
+.lesson-page-card {
+  border-radius: 26px;
+  box-shadow: var(--glass-shadow);
+}
+
+.live-card {
+  padding: 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.live-card-title,
+.lesson-page-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-display), "Space Grotesk", sans-serif;
+}
+
+.live-session-list,
+.live-meeting-list,
+.notifications-list,
+.lesson-step-list {
+  display: grid;
+  gap: 14px;
+}
+
+.live-session,
+.live-meeting,
+.notification-card,
+.lesson-step {
+  position: relative;
+  overflow: hidden;
+}
+
+.live-session,
+.live-meeting {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(99, 195, 21, 0.12);
+}
+
+.live-session-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.live-status-pill,
+.messages-online-pill,
+.lesson-hero-pill,
+.lesson-page-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(99, 195, 21, 0.12);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.live-session-title,
+.notification-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.live-session-meta,
+.live-session-time,
+.notification-time,
+.lesson-page-section-subtitle,
+.lesson-step-copy span,
+.lesson-step-copy p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.live-meeting-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.live-meeting-time {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.live-meeting p,
+.notification-card p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.messages-status-card {
+  min-width: 220px;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(99, 195, 21, 0.12);
+  border: 1px solid rgba(99, 195, 21, 0.18);
+  display: grid;
+  gap: 4px;
+}
+
+.messages-status-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.messages-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.messages-sidebar,
+.messages-window {
+  padding: 18px;
+}
+
+.messages-sidebar {
+  display: grid;
+  gap: 10px;
+}
+
+.message-thread {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.message-thread.active {
+  background: rgba(99, 195, 21, 0.12);
+  border-color: rgba(99, 195, 21, 0.18);
+}
+
+.message-thread-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #7c7bff, #b388ff);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.message-thread-copy,
+.message-thread-head {
+  display: grid;
+  gap: 4px;
+}
+
+.message-thread-head {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.message-thread-unread {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: #63c315;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.message-thread-course,
+.message-thread-preview,
+.messages-window-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.messages-window {
+  display: grid;
+  gap: 16px;
+}
+
+.messages-window-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.messages-window-title {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: var(--font-display), "Space Grotesk", sans-serif;
+}
+
+.messages-feed {
+  min-height: 360px;
+  max-height: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+.message-bubble {
+  max-width: min(420px, 100%);
+  padding: 14px 16px;
+  border-radius: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.message-bubble.incoming {
+  align-self: flex-start;
+  background: rgba(99, 195, 21, 0.08);
+  border: 1px solid rgba(99, 195, 21, 0.12);
+}
+
+.message-bubble.outgoing {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #6bd81f, #4fb919);
+  color: #ffffff;
+}
+
+.message-bubble p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.message-bubble span {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.messages-composer {
+  display: grid;
+  gap: 12px;
+}
+
+.messages-composer textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 96px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font: inherit;
+}
+
+.messages-composer textarea::placeholder {
+  color: var(--muted);
+}
+
+.messages-send {
+  justify-self: end;
+}
+
+.notifications-list {
+  gap: 16px;
+}
+
+.notification-card {
+  padding: 20px;
+}
+
+.notification-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--notice, #63c315);
+}
+
+.notification-card.accent {
+  --notice: #63c315;
+}
+
+.notification-card.warm {
+  --notice: #ffb703;
+}
+
+.notification-card.cool {
+  --notice: #56d2ff;
+}
+
+.lesson-hero {
+  padding: 26px;
+  border-radius: 30px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 140px;
+  gap: 20px;
+  align-items: center;
+}
+
+.lesson-hero-copy {
+  display: grid;
+  gap: 12px;
+}
+
+.lesson-back {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 34px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(99, 195, 21, 0.1);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.lesson-hero-actions,
+.lesson-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lesson-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 195, 21, 0.18);
+  background: rgba(99, 195, 21, 0.1);
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.lesson-hero-icon {
+  width: 140px;
+  height: 140px;
+  border-radius: 40px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.16), transparent 32%),
+    linear-gradient(135deg, #6bd81f, #ffd166);
+  color: #103510;
+  box-shadow: 0 18px 36px rgba(79, 185, 25, 0.24);
+}
+
+.lesson-hero-icon svg {
+  width: 70px;
+  height: 70px;
+}
+
+.lesson-page-main,
+.lesson-page-aside {
+  display: grid;
+  gap: 18px;
+}
+
+.lesson-page-card {
+  padding: 20px;
+  display: grid;
+  gap: 18px;
+}
+
+.lesson-page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.lesson-step {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(99, 195, 21, 0.08);
+}
+
+.lesson-step.done {
+  border-color: rgba(99, 195, 21, 0.18);
+  background: rgba(99, 195, 21, 0.1);
+}
+
+.lesson-step-number {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(99, 195, 21, 0.14);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.lesson-step-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: rgba(99, 195, 21, 0.12);
+  color: var(--text);
+}
+
+.lesson-step-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.lesson-step-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.lesson-step-copy strong {
+  font-size: 15px;
+}
+
+.lesson-step-copy p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.lesson-step-state {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 209, 102, 0.14);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.lesson-support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.lesson-support-card {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(99, 195, 21, 0.12);
+  border: 1px solid rgba(99, 195, 21, 0.16);
+  color: var(--text);
+}
+
+.lesson-support-card span,
+.lesson-progress-meta span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.lesson-progress-panel {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.lesson-progress-ring {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(
+    #63c315 0 var(--lesson-progress, 65%),
+    rgba(99, 195, 21, 0.12) 0
+  );
+}
+
+.lesson-progress-ring span {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--glass-strong);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.lesson-progress-meta {
+  display: grid;
+  gap: 6px;
+}
+
+@media (max-width: 1200px) {
+  .learn-main-grid,
+  .live-grid,
+  .lesson-page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .learn-detail-sheet {
+    position: static;
+    min-height: auto;
+  }
+
+  .messages-layout {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 980px) {
+  .sidebar {
+    position: static;
+  }
+
+  .sidebar-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nav-link {
+    min-width: 0;
+  }
+
+  .learn-phone {
+    min-height: auto;
+  }
+
+  .messages-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .live-hero,
+  .messages-hero,
+  .notifications-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .sidebar {
+    padding: 18px;
+  }
+
+  .sidebar-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-utility-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dashboard-panel,
+  .live-hero,
+  .messages-hero,
+  .notifications-hero,
+  .lesson-hero {
+    padding: 18px;
+  }
+
+  .learn-phone {
+    padding: 16px;
+    border-radius: 28px;
+  }
+
+  .path-area {
+    min-height: 480px;
+    padding: 16px 12px 92px;
+  }
+
+  .learn-bottom-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 8px;
+  }
+
+  .lesson-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-hero-icon {
+    width: 112px;
+    height: 112px;
+  }
+
+  .lesson-step {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .lesson-step-state {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-left: 52px;
+  }
+}
+
+@media (max-width: 560px) {
+  .sidebar-utility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-row,
+  .streak-row,
+  .detail-summary,
+  .lesson-page-head,
+  .messages-window-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .teacher-card-footer,
+  .detail-summary-actions,
+  .lesson-hero-actions,
+  .lesson-next-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .live-title,
+  .messages-title,
+  .notifications-title,
+  .lesson-page-title {
+    font-size: 24px;
+  }
+
+  .lesson-step {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-step-state {
+    margin-left: 0;
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   startTransition,
   useEffect,
@@ -7,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { learningDays } from "../learn";
+import { getLearningDayHref, learningDays } from "../learn";
 import {
   BottomNavIcon,
   JourneyIcon,
@@ -220,6 +221,8 @@ export default function LearnPath() {
   const [syncLabel, setSyncLabel] = useState("Optimistic progress is active.");
   const derivedState = buildDerivedState(optimisticState);
   const activeEntry = getActiveEntry(derivedState);
+  const currentDayId = getCurrentStopId(derivedState.days);
+  const currentDayHref = getLearningDayHref(currentDayId);
 
   useEffect(() => {
     return () => {
@@ -351,10 +354,10 @@ export default function LearnPath() {
               <span style={{ width: `${derivedState.unitProgress}%` }} />
             </div>
           </div>
-          <button
+          <Link
             className="unit-action"
-            type="button"
             aria-label="View unit guide"
+            href={currentDayHref}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -365,74 +368,109 @@ export default function LearnPath() {
                 strokeLinecap="round"
               />
             </svg>
-          </button>
+          </Link>
         </section>
 
-        <div className="learn-scroll-frame">
-          <div className="path-area" ref={scrollRegionRef}>
-            <div className="path-header">
-              <div>
-                <div className="path-title">Learning path</div>
-                <div className="path-subtitle">
-                  {derivedState.completedLessons} of {derivedState.totalLessons}{" "}
-                  sub-units completed
+        <div className="learn-main-grid">
+          <div className="learn-scroll-frame">
+            <div className="path-area" ref={scrollRegionRef}>
+              <div className="path-header">
+                <div>
+                  <div className="path-title">Learning path</div>
+                  <div className="path-subtitle">
+                    {derivedState.completedLessons} of {derivedState.totalLessons}{" "}
+                    sub-units completed
+                  </div>
                 </div>
+                <div className="path-progress">{derivedState.unitProgress}%</div>
               </div>
-              <div className="path-progress">{derivedState.unitProgress}%</div>
-            </div>
 
-            <div className="learn-journey">
-              {JOURNEY_STOPS.map((stop, index) => {
-                if (stop.type === "day") {
-                  const day = derivedState.days.find(
-                    (entry) => entry.id === stop.id,
-                  );
+              <div className="learn-journey">
+                {JOURNEY_STOPS.map((stop, index) => {
+                  if (stop.type === "day") {
+                    const day = derivedState.days.find(
+                      (entry) => entry.id === stop.id,
+                    );
 
-                  if (!day) {
-                    return null;
+                    if (!day) {
+                      return null;
+                    }
+
+                    const isActive = derivedState.activeStopId === day.id;
+                    const dayHref = getLearningDayHref(day.id);
+                    const positionStyle = {
+                      marginInlineStart: `calc(${day.x}% - 48px)`,
+                      animationDelay: `${index * 70}ms`,
+                      "--progress": day.progress,
+                    };
+
+                    return (
+                      <div
+                        key={day.id}
+                        className="learn-stop day"
+                        style={positionStyle}
+                        data-stop-id={day.id}
+                      >
+                        <Link
+                          className={`journey-node ${
+                            day.isComplete ? "complete" : "available"
+                          } ${isActive ? "active" : ""}`}
+                          href={dayHref}
+                          onMouseEnter={() => handleSelectStop(day.id)}
+                          onFocus={() => handleSelectStop(day.id)}
+                          aria-label={`Open ${day.title}`}
+                        >
+                          <span className="journey-node-core">
+                            <JourneyIcon name={day.icon} />
+                          </span>
+                        </Link>
+                        <Link
+                          className="journey-label"
+                          href={dayHref}
+                          onMouseEnter={() => handleSelectStop(day.id)}
+                          onFocus={() => handleSelectStop(day.id)}
+                        >
+                          <span>{day.label}</span>
+                          <strong>
+                            {day.completedLessons}/{day.totalLessons}
+                          </strong>
+                        </Link>
+                      </div>
+                    );
                   }
 
-                  const isActive = derivedState.activeStopId === day.id;
-                  const positionStyle = {
-                    marginInlineStart: `calc(${day.x}% - 48px)`,
-                    animationDelay: `${index * 70}ms`,
-                    "--progress": day.progress,
-                  };
-
-                  return (
-                    <div
-                      key={day.id}
-                      className="learn-stop day"
-                      style={positionStyle}
-                      data-stop-id={day.id}
-                    >
-                      <button
-                        className={`journey-node ${
-                          day.isComplete ? "complete" : "available"
-                        } ${isActive ? "active" : ""}`}
-                        type="button"
-                        onClick={() => handleSelectStop(day.id)}
-                        aria-pressed={isActive}
+                  if (stop.type === "chest") {
+                    return (
+                      <div
+                        key={stop.id}
+                        className="learn-stop chest"
+                        style={{
+                          marginInlineStart: `calc(${stop.x}% - ${stop.width / 2}px)`,
+                          animationDelay: `${index * 70}ms`,
+                        }}
+                        data-stop-id={stop.id}
                       >
-                        <span className="journey-node-core">
-                          <JourneyIcon name={day.icon} />
-                        </span>
-                      </button>
-                      <div className="journey-label">
-                        <span>{day.label}</span>
-                        <strong>
-                          {day.completedLessons}/{day.totalLessons}
-                        </strong>
+                        <button
+                          className={`learn-stop-button ${
+                            derivedState.activeStopId === stop.id ? "active" : ""
+                          }`}
+                          type="button"
+                          onClick={() => handleSelectStop(stop.id)}
+                          aria-pressed={derivedState.activeStopId === stop.id}
+                        >
+                          <RewardChest
+                            unlocked={derivedState.chestUnlocked}
+                            claimed={derivedState.chestClaimed}
+                          />
+                        </button>
                       </div>
-                    </div>
-                  );
-                }
+                    );
+                  }
 
-                if (stop.type === "chest") {
                   return (
                     <div
                       key={stop.id}
-                      className="learn-stop chest"
+                      className={`learn-stop mascot ${stop.variant}`}
                       style={{
                         marginInlineStart: `calc(${stop.x}% - ${stop.width / 2}px)`,
                         animationDelay: `${index * 70}ms`,
@@ -447,178 +485,160 @@ export default function LearnPath() {
                         onClick={() => handleSelectStop(stop.id)}
                         aria-pressed={derivedState.activeStopId === stop.id}
                       >
-                        <RewardChest
-                          unlocked={derivedState.chestUnlocked}
-                          claimed={derivedState.chestClaimed}
-                        />
+                        <LearnMascot variant={stop.variant} />
                       </button>
+                      <div className="mascot-stars" aria-hidden="true">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
                     </div>
                   );
-                }
+                })}
+              </div>
 
-                return (
-                  <div
-                    key={stop.id}
-                    className={`learn-stop mascot ${stop.variant}`}
-                    style={{
-                      marginInlineStart: `calc(${stop.x}% - ${stop.width / 2}px)`,
-                      animationDelay: `${index * 70}ms`,
-                    }}
-                    data-stop-id={stop.id}
-                  >
-                    <button
-                      className={`learn-stop-button ${
-                        derivedState.activeStopId === stop.id ? "active" : ""
-                      }`}
-                      type="button"
-                      onClick={() => handleSelectStop(stop.id)}
-                      aria-pressed={derivedState.activeStopId === stop.id}
-                    >
-                      <LearnMascot variant={stop.variant} />
-                    </button>
-                    <div className="mascot-stars" aria-hidden="true">
-                      <span />
-                      <span />
-                      <span />
+              <button
+                className="learn-scroll-top"
+                type="button"
+                onClick={handleScrollTop}
+                aria-label="Scroll to top"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 18V6M7 11L12 6L17 11"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <section className="learn-detail-sheet">
+            <div className="detail-top">
+              <div>
+                <div className="detail-eyebrow">
+                  {
+                    BOTTOM_NAV_ITEMS.find(
+                      (item) => item.id === derivedState.activeNavId,
+                    )?.label
+                  }
+                </div>
+                <div className="detail-title">
+                  {activeEntry.type === "day"
+                    ? activeEntry.day.title
+                    : activeEntry.type === "chest"
+                      ? "Reward chest"
+                      : activeEntry.title}
+                </div>
+              </div>
+              <div className={`detail-sync ${pendingChanges ? "busy" : ""}`}>
+                {syncLabel}
+              </div>
+            </div>
+
+            {activeEntry.type === "day"
+              ? <>
+                  <div className="detail-summary">
+                    <p>{activeEntry.day.subtitle}</p>
+                    <div className="detail-summary-actions">
+                      <div className="detail-progress-pill">
+                        {activeEntry.day.completedLessons} /{" "}
+                        {activeEntry.day.totalLessons} complete
+                      </div>
+                      <Link
+                        className="detail-inline-link"
+                        href={getLearningDayHref(activeEntry.day.id)}
+                      >
+                        Open day page
+                      </Link>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <button
-            className="learn-scroll-top"
-            type="button"
-            onClick={handleScrollTop}
-            aria-label="Scroll to top"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M12 18V6M7 11L12 6L17 11"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <section className="learn-detail-sheet">
-          <div className="detail-top">
-            <div>
-              <div className="detail-eyebrow">
-                {
-                  BOTTOM_NAV_ITEMS.find(
-                    (item) => item.id === derivedState.activeNavId,
-                  )?.label
-                }
-              </div>
-              <div className="detail-title">
-                {activeEntry.type === "day"
-                  ? activeEntry.day.title
-                  : activeEntry.type === "chest"
-                    ? "Reward chest"
-                    : activeEntry.title}
-              </div>
-            </div>
-            <div className={`detail-sync ${pendingChanges ? "busy" : ""}`}>
-              {syncLabel}
-            </div>
-          </div>
-
-          {activeEntry.type === "day"
-            ? <>
-                <div className="detail-summary">
-                  <p>{activeEntry.day.subtitle}</p>
-                  <div className="detail-progress-pill">
-                    {activeEntry.day.completedLessons} /{" "}
-                    {activeEntry.day.totalLessons} complete
+                  <div className="detail-lesson-list">
+                    {activeEntry.day.lessons.map((lesson) => (
+                      <button
+                        key={lesson.id}
+                        className={`detail-lesson ${lesson.completed ? "done" : ""}`}
+                        type="button"
+                        onClick={() =>
+                          handleLessonToggle(activeEntry.day.id, lesson)
+                        }
+                        aria-pressed={lesson.completed}
+                      >
+                        <span className="detail-lesson-icon">
+                          <LessonIcon kind={lesson.kind} />
+                        </span>
+                        <span className="detail-lesson-copy">
+                          <strong>{lesson.title}</strong>
+                          <small>
+                            {lesson.duration} - {lesson.detail}
+                          </small>
+                        </span>
+                        <span className="detail-lesson-state">
+                          <em>{getLessonBadge(lesson.kind)}</em>
+                          <b>{lesson.completed ? "Done" : "Start"}</b>
+                        </span>
+                      </button>
+                    ))}
                   </div>
-                </div>
-                <div className="detail-lesson-list">
-                  {activeEntry.day.lessons.map((lesson) => (
-                    <button
-                      key={lesson.id}
-                      className={`detail-lesson ${lesson.completed ? "done" : ""}`}
-                      type="button"
-                      onClick={() =>
-                        handleLessonToggle(activeEntry.day.id, lesson)
-                      }
-                      aria-pressed={lesson.completed}
-                    >
-                      <span className="detail-lesson-icon">
-                        <LessonIcon kind={lesson.kind} />
-                      </span>
-                      <span className="detail-lesson-copy">
-                        <strong>{lesson.title}</strong>
-                        <small>
-                          {lesson.duration} - {lesson.detail}
-                        </small>
-                      </span>
-                      <span className="detail-lesson-state">
-                        <em>{getLessonBadge(lesson.kind)}</em>
-                        <b>{lesson.completed ? "Done" : "Start"}</b>
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </>
-            : null}
+                </>
+              : null}
 
-          {activeEntry.type === "chest"
-            ? <div className="detail-bonus-card">
-                <p>
-                  Claim the bonus chest after completing the first{" "}
-                  {CHEST_DAY_COUNT} day circles. The reward adds gems and
-                  mastery instantly.
-                </p>
-                <div className="detail-bonus-meta">
-                  <span>
-                    {derivedState.chestUnlocked ? "Ready to unlock" : "Locked"}
-                  </span>
-                  <span>
-                    {derivedState.chestClaimed ? "Claimed" : "+90 gems"}
-                  </span>
+            {activeEntry.type === "chest"
+              ? <div className="detail-bonus-card">
+                  <p>
+                    Claim the bonus chest after completing the first{" "}
+                    {CHEST_DAY_COUNT} day circles. The reward adds gems and
+                    mastery instantly.
+                  </p>
+                  <div className="detail-bonus-meta">
+                    <span>
+                      {derivedState.chestUnlocked ? "Ready to unlock" : "Locked"}
+                    </span>
+                    <span>
+                      {derivedState.chestClaimed ? "Claimed" : "+90 gems"}
+                    </span>
+                  </div>
+                  <button
+                    className="detail-primary-action"
+                    type="button"
+                    disabled={
+                      !derivedState.chestUnlocked || derivedState.chestClaimed
+                    }
+                    onClick={handleClaimChest}
+                  >
+                    {derivedState.chestClaimed
+                      ? "Reward claimed"
+                      : derivedState.chestUnlocked
+                        ? "Claim reward"
+                        : "Finish earlier days"}
+                  </button>
                 </div>
-                <button
-                  className="detail-primary-action"
-                  type="button"
-                  disabled={
-                    !derivedState.chestUnlocked || derivedState.chestClaimed
-                  }
-                  onClick={handleClaimChest}
-                >
-                  {derivedState.chestClaimed
-                    ? "Reward claimed"
-                    : derivedState.chestUnlocked
-                      ? "Claim reward"
-                      : "Finish earlier days"}
-                </button>
-              </div>
-            : null}
+              : null}
 
-          {activeEntry.type === "mascot"
-            ? <div className="detail-bonus-card mascot-copy">
-                <p>{activeEntry.subtitle}</p>
-                <div className="detail-bonus-meta">
-                  <span>{derivedState.completedDays} day circles closed</span>
-                  <span>{derivedState.metrics.streak} streak points</span>
+            {activeEntry.type === "mascot"
+              ? <div className="detail-bonus-card mascot-copy">
+                  <p>{activeEntry.subtitle}</p>
+                  <div className="detail-bonus-meta">
+                    <span>{derivedState.completedDays} day circles closed</span>
+                    <span>{derivedState.metrics.streak} streak points</span>
+                  </div>
+                  <button
+                    className="detail-primary-action secondary"
+                    type="button"
+                    onClick={() =>
+                      handleSelectStop(getCurrentStopId(derivedState.days))
+                    }
+                  >
+                    Jump to current day
+                  </button>
                 </div>
-                <button
-                  className="detail-primary-action secondary"
-                  type="button"
-                  onClick={() =>
-                    handleSelectStop(getCurrentStopId(derivedState.days))
-                  }
-                >
-                  Jump to current day
-                </button>
-              </div>
-            : null}
-        </section>
+              : null}
+          </section>
+        </div>
 
         <nav className="learn-bottom-nav" aria-label="Learning path tabs">
           {BOTTOM_NAV_ITEMS.map((item) => {
