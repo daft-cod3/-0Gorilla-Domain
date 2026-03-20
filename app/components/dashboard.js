@@ -4,20 +4,8 @@ export default function Dashboard() {
       <div className="dashboard-panel">
         <header className="dash-topbar">
           <div className="dash-search">
-            <svg
-              aria-hidden="true"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle
-                cx="11"
-                cy="11"
-                r="7"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
               <path
                 d="M20 20L17 17"
                 stroke="currentColor"
@@ -25,21 +13,12 @@ export default function Dashboard() {
                 strokeLinecap="round"
               />
             </svg>
-            <input
-              type="text"
-              placeholder="Search routes, instructors, lessons"
-            />
+            <input type="text" placeholder="Search classes, mentors, topics" />
           </div>
           <div className="dash-top-actions">
-            <span className="dash-live">Live route</span>
+            <span className="dash-live">Live</span>
             <button className="dash-icon" type="button" aria-label="Messages">
-              <svg
-                aria-hidden="true"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M5 6H19V15H8L5 18V6Z"
                   stroke="currentColor"
@@ -48,18 +27,8 @@ export default function Dashboard() {
                 />
               </svg>
             </button>
-            <button
-              className="dash-icon"
-              type="button"
-              aria-label="Notifications"
-            >
-              <svg
-                aria-hidden="true"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
+            <button className="dash-icon" type="button" aria-label="Notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M6 9C6 6 8 4 12 4C16 4 18 6 18 9V13L20 15H4L6 13V9Z"
                   stroke="currentColor"
@@ -80,25 +49,27 @@ export default function Dashboard() {
 
         <section className="dash-hero">
           <div className="dash-hero-content">
-            <div className="dash-hero-tag">Driving school</div>
-            <h1 className="dash-hero-title">Hi Ari, your route is ready.</h1>
+            <div className="dash-hero-tag">Library</div>
+            <h1 className="dash-hero-title">
+              Hi Ari, welcome back to your skillset.
+            </h1>
             <p className="dash-hero-subtitle">
-              The next sequence in Module 2 is unlocked. Keep your streak to
-              earn instructor feedback and premium practice routes.
+              The next sequence in Section 2 is ready. Keep your streak to unlock
+              mentor feedback and premium practice sets.
             </p>
             <button className="dash-hero-button" type="button">
-              Open route
+              Learn more
             </button>
           </div>
-          <div className="dash-hero-art" aria-hidden="true">
-            <div className="book-stack road-stack">
+          <div className="dash-hero-art">
+            <div className="book-stack">
               <span className="book book-one" />
               <span className="book book-two" />
               <span className="book book-three" />
               <span className="book book-four" />
               <span className="book book-five" />
             </div>
-            <div className="book-stand road-stand">
+            <div className="book-stand">
               <span />
               <span />
             </div>
@@ -110,10 +81,9 @@ export default function Dashboard() {
             <section className="dash-section">
               <div className="dash-section-head">
                 <div>
-                  <div className="dash-section-title">Instructor uploads</div>
+                  <div className="dash-section-title">Teacher uploads</div>
                   <div className="dash-section-subtitle">
-                    New videos, image guides, quizzes, and links from your
-                    instructor.
+                    New videos, images, quizzes, and links from your teacher.
                   </div>
                 </div>
                 <button className="dash-link" type="button">
@@ -127,7 +97,7 @@ export default function Dashboard() {
                     <span className="teacher-type">Video</span>
                     <span className="teacher-badge">New upload</span>
                   </div>
-                  <div className="teacher-title">Mirror check routine</div>
+                  <div className="teacher-title">Pronunciation warm-up</div>
                   <div className="teacher-meta">
                     Ms. Diaz - 12 min - Uploaded 2 hours ago
                   </div>
@@ -141,7 +111,7 @@ export default function Dashboard() {
                     <span className="teacher-type">Image set</span>
                     <span className="teacher-badge">New upload</span>
                   </div>
-                  <div className="teacher-title">Road sign gallery</div>
+                  <div className="teacher-title">Travel signs gallery</div>
                   <div className="teacher-meta">
                     Mr. Chen - 8 images - Uploaded yesterday
                   </div>
@@ -155,7 +125,7 @@ export default function Dashboard() {
                     <span className="teacher-type">Quiz</span>
                     <span className="teacher-badge">New upload</span>
                   </div>
-                  <div className="teacher-title">Parking bay quiz</div>
+                  <div className="teacher-title">Ticket booking quiz</div>
                   <div className="teacher-meta">
                     Ms. Omar - 10 questions - Due in 2 days
                   </div>
@@ -169,7 +139,7 @@ export default function Dashboard() {
                     <span className="teacher-type">Resource</span>
                     <span className="teacher-badge">New upload</span>
                   </div>
-                  <div className="teacher-title">Traffic rules link</div>
+                  <div className="teacher-title">Useful travel phrases</div>
                   <div className="teacher-meta">
                     Ms. Bello - External link - Updated today
                   </div>
@@ -183,7 +153,7 @@ export default function Dashboard() {
             <section className="dash-section">
               <div className="dash-section-head">
                 <div>
-                  <div className="dash-section-title">Popular routes</div>
+                  <div className="dash-section-title">Popular</div>
                   <div className="dash-section-subtitle">
                     Curated lessons for fast progress.
                   </div>
@@ -195,22 +165,22 @@ export default function Dashboard() {
               <div className="dash-card-grid">
                 <article className="dash-course-card">
                   <div className="dash-card-art art-lilac" />
-                  <div className="dash-card-title">Theory basics</div>
+                  <div className="dash-card-title">Travel basics</div>
                   <div className="dash-card-meta">12 lessons - 4.8 rating</div>
                 </article>
                 <article className="dash-course-card">
                   <div className="dash-card-art art-peach" />
-                  <div className="dash-card-title">Steering control</div>
+                  <div className="dash-card-title">Ordering food</div>
                   <div className="dash-card-meta">9 lessons - 4.6 rating</div>
                 </article>
                 <article className="dash-course-card">
                   <div className="dash-card-art art-mint" />
-                  <div className="dash-card-title">Daily checks</div>
+                  <div className="dash-card-title">Daily routines</div>
                   <div className="dash-card-meta">14 lessons - 4.9 rating</div>
                 </article>
                 <article className="dash-course-card">
                   <div className="dash-card-art art-sky" />
-                  <div className="dash-card-title">Test prep</div>
+                  <div className="dash-card-title">Culture phrases</div>
                   <div className="dash-card-meta">7 lessons - 4.7 rating</div>
                 </article>
               </div>
@@ -219,7 +189,7 @@ export default function Dashboard() {
             <section className="dash-section">
               <div className="dash-section-head">
                 <div>
-                  <div className="dash-section-title">In progress</div>
+                  <div className="dash-section-title">Ongoing</div>
                   <div className="dash-section-subtitle">
                     Continue where you left off.
                   </div>
@@ -231,22 +201,22 @@ export default function Dashboard() {
               <div className="dash-card-grid">
                 <article className="dash-course-card">
                   <div className="dash-card-art art-violet" />
-                  <div className="dash-card-title">Clutch drills</div>
+                  <div className="dash-card-title">Grammar drills</div>
                   <div className="dash-card-meta">Lesson 5 - 36 min left</div>
                 </article>
                 <article className="dash-course-card">
                   <div className="dash-card-art art-rose" />
-                  <div className="dash-card-title">Traffic spotting</div>
+                  <div className="dash-card-title">Listening lab</div>
                   <div className="dash-card-meta">Lesson 3 - 22 min left</div>
                 </article>
                 <article className="dash-course-card">
                   <div className="dash-card-art art-amber" />
-                  <div className="dash-card-title">Signal pack</div>
+                  <div className="dash-card-title">Vocabulary pack</div>
                   <div className="dash-card-meta">Lesson 8 - 41 min left</div>
                 </article>
                 <article className="dash-course-card">
                   <div className="dash-card-art art-aqua" />
-                  <div className="dash-card-title">Road roleplay</div>
+                  <div className="dash-card-title">Roleplay practice</div>
                   <div className="dash-card-meta">Lesson 2 - 18 min left</div>
                 </article>
               </div>
@@ -257,16 +227,12 @@ export default function Dashboard() {
             <div className="dash-rail-card">
               <div className="dash-rail-head">
                 <div>
-                  <div className="dash-rail-title">Road test unlock</div>
+                  <div className="dash-rail-title">Unlocks achievement</div>
                   <div className="dash-rail-subtitle">
-                    Complete 3 sessions to unlock your next badge.
+                    Complete 3 sessions to unlock.
                   </div>
                 </div>
-                <button
-                  className="dash-toggle"
-                  type="button"
-                  aria-label="Toggle"
-                >
+                <button className="dash-toggle" type="button" aria-label="Toggle">
                   <span />
                 </button>
               </div>
@@ -287,36 +253,36 @@ export default function Dashboard() {
             </div>
 
             <div className="dash-rail-card">
-              <div className="dash-rail-title">Top instructors</div>
+              <div className="dash-rail-title">Top mentors</div>
               <div className="dash-rail-list">
                 <div className="dash-rail-item">
                   <span className="dash-rail-avatar">GM</span>
                   <div>
                     <div className="dash-rail-name">Gina Moore</div>
-                    <div className="dash-rail-meta">Observation - 4.9</div>
+                    <div className="dash-rail-meta">Conversation - 4.9</div>
                   </div>
                   <button className="dash-rail-action" type="button">
-                    Schedule
+                    Book
                   </button>
                 </div>
                 <div className="dash-rail-item">
                   <span className="dash-rail-avatar">PS</span>
                   <div>
                     <div className="dash-rail-name">Priya Singh</div>
-                    <div className="dash-rail-meta">Theory - 4.8</div>
+                    <div className="dash-rail-meta">Grammar - 4.8</div>
                   </div>
                   <button className="dash-rail-action" type="button">
-                    Schedule
+                    Book
                   </button>
                 </div>
                 <div className="dash-rail-item">
                   <span className="dash-rail-avatar">JW</span>
                   <div>
                     <div className="dash-rail-name">Jun Wei</div>
-                    <div className="dash-rail-meta">Practical - 4.7</div>
+                    <div className="dash-rail-meta">Pronunciation - 4.7</div>
                   </div>
                   <button className="dash-rail-action" type="button">
-                    Schedule
+                    Book
                   </button>
                 </div>
               </div>

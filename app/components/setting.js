@@ -10,9 +10,7 @@ export default function Setting() {
 
   useEffect(() => {
     const stored = window.localStorage.getItem(THEME_KEY);
-    const prefersDark = window.matchMedia?.(
-      "(prefers-color-scheme: dark)",
-    ).matches;
+    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
     const nextTheme = stored || (prefersDark ? "dark" : "light");
     setTheme(nextTheme);
     setMounted(true);
@@ -33,7 +31,7 @@ export default function Setting() {
         <div>
           <div className="settings-title">Settings</div>
           <div className="settings-subtitle">
-            Control the cockpit feel of your driving school space.
+            Control the look and feel of your learning space.
           </div>
         </div>
       </div>
@@ -41,9 +39,7 @@ export default function Setting() {
       <div className="setting-row">
         <div>
           <div className="setting-label">Theme</div>
-          <div className="setting-help">
-            Switch between light and dark mode.
-          </div>
+          <div className="setting-help">Switch between light and dark mode.</div>
         </div>
         <button
           className={`theme-toggle ${theme === "dark" ? "is-dark" : ""}`}

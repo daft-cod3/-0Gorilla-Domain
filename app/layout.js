@@ -1,4 +1,4 @@
-import { Source_Sans_3, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "./components/theme-provider";
 
@@ -13,14 +13,13 @@ const bodyFont = Source_Sans_3({
 });
 
 export const metadata = {
-  title: "GoDomain Driving School",
-  description:
-    "Digital driving-school learning platform with route-based practice and progress tracking.",
+  title: "GoDomain Learning Path",
+  description: "Student learning progress path for the GoDomain platform.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <body
         className={`${displayFont.variable} ${bodyFont.variable} antialiased`}
       >

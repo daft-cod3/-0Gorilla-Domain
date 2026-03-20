@@ -23,10 +23,10 @@ export default function Stats() {
     <div className="stats-shell">
       <header className="stats-header">
         <div>
-          <div className="stats-eyebrow">Driving analytics</div>
+          <div className="stats-eyebrow">Student analytics</div>
           <h1 className="stats-title">Progress and performance</h1>
           <p className="stats-subtitle">
-            Track leaderboards, training trends, achievements, and streaks.
+            Track leaderboards, learning trends, achievements, and streaks.
           </p>
         </div>
         <button className="stats-action" type="button">
@@ -53,6 +53,7 @@ export default function Stats() {
                 key={student.name}
                 className="student-card"
                 style={{ "--progress": `${progress}%` }}
+                tabIndex={0}
                 aria-label={`${student.name} ${formatPoints(
                   student.points,
                 )} out of ${formatPoints(leaderboardMaxPoints)} points`}
@@ -85,14 +86,19 @@ export default function Stats() {
 
       <section className="stats-section">
         <div className="stats-section-head">
-          <div className="stats-section-title">Training milestones</div>
+          <div className="stats-section-title">
+            Learning progress infographs
+          </div>
           <div className="stats-section-subtitle">
             Current level and all levels passed
           </div>
         </div>
         <ol className="infograph-grid">
           {levels.map((level) => (
-            <li key={level.level} className={`infograph-card ${level.status}`}>
+            <li
+              key={level.level}
+              className={`infograph-card ${level.status}`}
+            >
               <div
                 className="progress-ring"
                 style={{ "--progress": `${level.progress}%` }}
@@ -121,7 +127,7 @@ export default function Stats() {
           <li className="achievement-card">
             <div className="achievement-badge">A+</div>
             <div className="achievement-title">Consistency</div>
-            <div className="achievement-meta">5 practice days in a row</div>
+            <div className="achievement-meta">5 study days in a row</div>
           </li>
           <li className="achievement-card">
             <div className="achievement-badge">XP</div>
@@ -130,7 +136,7 @@ export default function Stats() {
           </li>
           <li className="achievement-card">
             <div className="achievement-badge">Pro</div>
-            <div className="achievement-title">Theory master</div>
+            <div className="achievement-title">Quiz master</div>
             <div className="achievement-meta">90% on 3 quizzes</div>
           </li>
         </ol>
@@ -139,9 +145,7 @@ export default function Stats() {
       <section className="stats-section">
         <div className="stats-section-head">
           <div className="stats-section-title">Streak</div>
-          <div className="stats-section-subtitle">
-            Based on your practice log
-          </div>
+          <div className="stats-section-subtitle">Based on your practice log</div>
         </div>
         <div className="stats-streak-card">
           <div className="stats-streak-top">
@@ -158,13 +162,7 @@ export default function Stats() {
               type="button"
               aria-label="Share streak"
             >
-              <svg
-                aria-hidden="true"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M14 4H20V10"
                   stroke="currentColor"
@@ -203,7 +201,7 @@ export default function Stats() {
               <div className="stats-streak-text">day streak!</div>
             </div>
             <div className="stats-streak-mascot" aria-hidden="true">
-              <svg aria-hidden="true" viewBox="0 0 120 120">
+              <svg viewBox="0 0 120 120">
                 <defs>
                   <linearGradient id="streakGlow" x1="0" x2="1">
                     <stop offset="0%" stopColor="#ffe08a" />
@@ -231,7 +229,7 @@ export default function Stats() {
 
           <div className="stats-streak-callout">
             <span className="stats-streak-callout-icon" aria-hidden="true">
-              <svg aria-hidden="true" viewBox="0 0 24 24">
+              <svg viewBox="0 0 24 24">
                 <path
                   d="M12 3C9 6 7 9 7 12C7 16 9.5 19 12 19C14.5 19 17 16 17 12C17 9 15 6 12 3Z"
                   fill="#ffcf66"
@@ -239,7 +237,7 @@ export default function Stats() {
               </svg>
             </span>
             <div className="stats-streak-callout-text">
-              Keep your <strong>Perfect Drive</strong> flame by doing a lesson
+              Keep your <strong>Perfect Streak</strong> flame by doing a lesson
               every day!
             </div>
           </div>
