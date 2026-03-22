@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const navItems = [
   {
@@ -44,6 +45,8 @@ const utilityItems = [
     icon: "notifications",
   },
 ];
+
+const SIDEBAR_COLLAPSE_KEY = "godomain-sidebar-collapsed";
 
 function getPrimarySection(pathname, fallback) {
   if (!pathname || pathname === "/" || pathname.startsWith("/dashboard")) {
@@ -200,97 +203,221 @@ function SidebarIcon({ name }) {
   );
 }
 
+function SidebarCloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7 7L17 17M17 7L7 17"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function Sidebar({ active = "dashboard" }) {
   const pathname = usePathname();
   const activeSection = getPrimarySection(pathname, active);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(SIDEBAR_COLLAPSE_KEY);
+    setIsCollapsed(stored === "true");
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      SIDEBAR_COLLAPSE_KEY,
+      isCollapsed ? "true" : "false",
+    );
+  }, [isCollapsed]);
+
+  useEffect(() => {
+    setIsMenuOpen((open) => (pathname ? false : open));
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      document.body.style.removeProperty("overflow");
+      return;
+    }
+
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.removeProperty("overflow");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMenuOpen]);
+
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <aside className="sidebar card">
-      <div className="sidebar-brand">
-        <div className="brand-mark">G</div>
-        <div>
-          <div className="brand-title">GoDomain</div>
-          <div className="brand-subtitle">Student learning workspace</div>
+    <div className={`sidebar-shell ${isCollapsed ? "is-collapsed" : ""}`}>
+      <div className="sidebar-mobile-bar card">
+        <button
+          className={`sidebar-hamburger ${isMenuOpen ? "is-open" : ""}`}
+          type="button"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-label="Toggle sidebar"
+          aria-expanded={isMenuOpen}
+          aria-controls="app-sidebar"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <div className="sidebar-mobile-copy">
+          <div className="sidebar-mobile-title">GoDomain</div>
+          <div className="sidebar-mobile-subtitle">
+            Menu, profile, and progress
+          </div>
+        </div>
+
+        <div className="sidebar-mobile-avatar" aria-hidden="true">
+          AR
         </div>
       </div>
 
-      <div className="profile-card">
-        <div className="profile-avatar">AR</div>
-        <div className="profile-copy">
-          <div className="profile-row">
-            <div className="profile-name">Ari Rowe</div>
-            <span className="profile-status">Online</span>
-          </div>
-          <div className="profile-meta">Section 2 • Unit 2</div>
-          <div className="profile-progress">
-            <span style={{ width: "78%" }} />
-          </div>
-        </div>
-      </div>
+      <button
+        className={`sidebar-overlay ${isMenuOpen ? "is-open" : ""}`}
+        type="button"
+        aria-label="Close sidebar"
+        onClick={closeMenu}
+      />
 
-      <nav className="sidebar-nav" aria-label="Primary navigation">
-        {navItems.map((item) => {
-          const isActive = item.id === activeSection;
-
-          return (
-            <Link
-              key={item.id}
-              className={`nav-link ${isActive ? "active" : ""}`}
-              href={item.href}
-              aria-current={isActive ? "page" : undefined}
+      <aside
+        id="app-sidebar"
+        className={`sidebar card ${isMenuOpen ? "is-open" : ""} ${
+          isCollapsed ? "is-collapsed" : ""
+        }`}
+      >
+        <div className="sidebar-top">
+          <div className="sidebar-brand">
+            <button
+              className={`sidebar-collapse ${isCollapsed ? "is-collapsed" : ""}`}
+              type="button"
+              onClick={() => setIsCollapsed((prev) => !prev)}
+              aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              aria-pressed={isCollapsed}
             >
-              <span className={`nav-icon ${item.id}`}>
-                <SidebarIcon name={item.icon} />
-              </span>
-              <span className="nav-copy">
-                <span className="nav-label">{item.label}</span>
-                <span className="nav-caption">{item.caption}</span>
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
+              <span />
+              <span />
+              <span />
+            </button>
+            <div className="brand-mark">G</div>
+            <div className="brand-copy">
+              <div className="brand-title">GoDomain</div>
+              <div className="brand-subtitle">Student learning workspace</div>
+            </div>
+          </div>
 
-      <div className="sidebar-section">
-        <div className="sidebar-section-label">Quick access</div>
-        <div className="sidebar-utility-grid">
-          {utilityItems.map((item) => {
-            const isActive = isUtilityActive(pathname, item.href);
+          <button
+            className="sidebar-close"
+            type="button"
+            onClick={closeMenu}
+            aria-label="Close sidebar"
+          >
+            <SidebarCloseIcon />
+          </button>
+        </div>
+
+        <div className="profile-card">
+          <div className="profile-avatar">AR</div>
+          <div className="profile-copy">
+            <div className="profile-row">
+              <div className="profile-name">Ari Rowe</div>
+              <span className="profile-status">Online</span>
+            </div>
+            <div className="profile-meta">Class B learner | Unit 7</div>
+            <div className="profile-progress">
+              <span style={{ width: "78%" }} />
+            </div>
+          </div>
+        </div>
+
+        <nav className="sidebar-nav" aria-label="Primary navigation">
+          {navItems.map((item) => {
+            const isActive = item.id === activeSection;
 
             return (
               <Link
                 key={item.id}
-                className={`sidebar-utility-link ${isActive ? "active" : ""}`}
+                className={`nav-link ${isActive ? "active" : ""}`}
                 href={item.href}
+                title={item.label}
+                aria-label={item.label}
                 aria-current={isActive ? "page" : undefined}
+                onClick={closeMenu}
               >
-                <span className={`sidebar-utility-icon ${item.id}`}>
+                <span className={`nav-icon ${item.id}`}>
                   <SidebarIcon name={item.icon} />
                 </span>
-                <span>{item.label}</span>
+                <span className="nav-copy">
+                  <span className="nav-label">{item.label}</span>
+                  <span className="nav-caption">{item.caption}</span>
+                </span>
               </Link>
             );
           })}
-        </div>
-      </div>
+        </nav>
 
-      <div className="sidebar-footer">
-        <div className="streak-card">
-          <div className="streak-row">
-            <div className="streak-value">8-day streak</div>
-            <span className="streak-pill">78% today</span>
-          </div>
-          <div className="streak-track" aria-hidden="true">
-            <span style={{ width: "78%" }} />
-          </div>
-          <div className="streak-meta">
-            Two more activities to unlock mentor feedback and bonus gems.
+        <div className="sidebar-section">
+          <div className="sidebar-section-label">Quick access</div>
+          <div className="sidebar-utility-grid">
+            {utilityItems.map((item) => {
+              const isActive = isUtilityActive(pathname, item.href);
+
+              return (
+                <Link
+                  key={item.id}
+                  className={`sidebar-utility-link ${isActive ? "active" : ""}`}
+                  href={item.href}
+                  title={item.label}
+                  aria-label={item.label}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={closeMenu}
+                >
+                  <span className={`sidebar-utility-icon ${item.id}`}>
+                    <SidebarIcon name={item.icon} />
+                  </span>
+                  <span className="sidebar-utility-text">{item.label}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
-        <Link className="cta-button" href="/content">
-          Continue learning
-        </Link>
-      </div>
-    </aside>
+
+        <div className="sidebar-footer">
+          <div className="streak-card">
+            <div className="streak-row">
+              <div className="streak-value">8-day streak</div>
+              <span className="streak-pill">78% today</span>
+            </div>
+            <div className="streak-track" aria-hidden="true">
+              <span style={{ width: "78%" }} />
+            </div>
+            <div className="streak-meta">
+              Two more activities to unlock mentor feedback and bonus gems.
+            </div>
+          </div>
+          <Link className="cta-button" href="/content" onClick={closeMenu}>
+            Continue learning
+          </Link>
+        </div>
+      </aside>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getLearningDayHref } from "../learn";
 import ContentReview from "../learn/components/contReview";
+import RoadSign from "./roadSign";
 
 const teacherUploads = [
   {
@@ -145,7 +146,7 @@ export default function Dashboard() {
     <div className="dashboard-shell">
       <div className="dashboard-panel">
         <header className="dash-topbar">
-          <div className="dash-search">
+          <div className="dash-search dash-search-static">
             <svg
               width="18"
               height="18"
@@ -167,57 +168,16 @@ export default function Dashboard() {
                 strokeLinecap="round"
               />
             </svg>
-            <input
-              type="text"
-              placeholder="Search reviews, uploads, or lessons"
-            />
+            <div className="dash-search-copy">
+              <span className="dash-search-label">Dashboard overview</span>
+              <span className="dash-search-note">
+                Lessons, review cards, and road signs are grouped into a calmer
+                layout.
+              </span>
+            </div>
           </div>
           <div className="dash-top-actions">
-            <Link className="dash-live" href="/live">
-              Live
-            </Link>
-            <Link className="dash-icon" href="/messages" aria-label="Messages">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M5 6H19V15H8L5 18V6Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
-            <Link
-              className="dash-icon"
-              href="/notifications"
-              aria-label="Notifications"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 9C6 6 8 4 12 4C16 4 18 6 18 9V13L20 15H4L6 13V9Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M9 17C9.6 18.2 10.7 19 12 19C13.3 19 14.4 18.2 15 17"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </Link>
+            <span className="dash-status-pill">Low-motion workspace</span>
             <div className="dash-avatar">AR</div>
           </div>
         </header>
@@ -360,13 +320,7 @@ export default function Dashboard() {
                     Finish one full lesson to create a new review card.
                   </div>
                 </div>
-                <button
-                  className="dash-toggle"
-                  type="button"
-                  aria-label="Toggle"
-                >
-                  <span />
-                </button>
+                <span className="dash-rail-chip">Tracking active</span>
               </div>
               <div className="dash-rail-progress">
                 <div className="dash-progress-row">
@@ -394,15 +348,15 @@ export default function Dashboard() {
                       <div className="dash-rail-name">{mentor.name}</div>
                       <div className="dash-rail-meta">{mentor.specialty}</div>
                     </div>
-                    <Link className="dash-rail-action" href="/messages">
-                      Message
-                    </Link>
+                    <span className="dash-rail-pill">Available</span>
                   </div>
                 ))}
               </div>
             </div>
           </aside>
         </div>
+
+        <RoadSign />
       </div>
     </div>
   );
