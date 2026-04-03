@@ -4,26 +4,43 @@ import Sidebar from "../../components/sidebar";
 import {
   getLearningDay,
   getLearningDayHref,
+  getLearningStepHref,
   getLearningUnit,
   learningDayIds,
   learningDays,
 } from "../../learn";
 import { JourneyIcon, LessonIcon } from "../../learn/icons";
 
-function getLessonLabel(kind) {
-  if (kind === "theory") {
-    return "Theory";
-  }
+function getLessonParagraphs(lesson) {
+  const topicParagraphs =
+    lesson.overviewTopics?.slice(0, 2).map((topic) => {
+      const summary = topic.points.slice(0, 2).join(" ");
 
-  if (kind === "board") {
-    return "Board";
-  }
+      return `${topic.title}: ${summary}`;
+    }) ?? [];
 
-  if (kind === "signs") {
-    return "Signs";
-  }
+  return [
+    lesson.overviewSummary ??
+      `${lesson.title} gives the learner a focused route through the key rules, the practical read of the road, and the actions that matter most under pressure.`,
+    ...topicParagraphs,
+  ].slice(0, 3);
+}
 
-  return "Quiz";
+function getLessonVideoChapters(lesson) {
+  const topicTitles = lesson.overviewTopics?.map((topic) => topic.title) ?? [];
+
+  return [
+    `Introduction to ${lesson.title.toLowerCase()}`,
+    topicTitles[0] ?? `${lesson.title} core routine`,
+    topicTitles[1] ?? "Worked examples and mistake correction",
+  ];
+}
+
+function getLessonGifNotes(lesson) {
+  return [
+    `Animated walkthrough showing the main movement and observation pattern for ${lesson.title.toLowerCase()}.`,
+    "Use the loop before practice so the sequence feels familiar before the lesson begins.",
+  ];
 }
 
 export function generateStaticParams() {
@@ -51,6 +68,12 @@ export default async function LearningDayPage({ params }) {
     ? Math.round((completedLessons / totalLessons) * 100)
     : 0;
   const nextIncompleteStep = lesson.lessons.find((entry) => !entry.completed);
+  const lessonParagraphs = getLessonParagraphs(lesson);
+  const lessonVideoChapters = getLessonVideoChapters(lesson);
+  const lessonGifNotes = getLessonGifNotes(lesson);
+  const lessonPoints =
+    lesson.overviewTopics?.flatMap((topic) => topic.points)?.slice(0, 6) ??
+    lesson.lessons.map((entry) => entry.detail).slice(0, 4);
   const rewardCards = [
     {
       label: "Coins",
@@ -147,10 +170,11 @@ export default async function LearningDayPage({ params }) {
                 <div className="lesson-page-head">
                   <div>
                     <div className="lesson-page-section-title">
-                      Sub-lesson checklist
+                      Lesson progress
                     </div>
                     <div className="lesson-page-section-subtitle">
-                      Complete all four steps for {lesson.label}.
+                      Open any icon to view the full topic page with more notes,
+                      media, and lesson support.
                     </div>
                   </div>
                   <span className="lesson-page-chip">
@@ -158,31 +182,112 @@ export default async function LearningDayPage({ params }) {
                   </span>
                 </div>
 
-                <div className="lesson-step-list">
+                <div className="lesson-step-icon-grid">
                   {lesson.lessons.map((entry, index) => (
-                    <article
+                    <Link
                       key={entry.id}
-                      className={`lesson-step ${entry.completed ? "done" : ""}`}
+                      className={`lesson-step-node ${entry.completed ? "done" : ""} ${entry.id === nextIncompleteStep?.id ? "next" : ""}`}
+                      href={getLearningStepHref(lesson.id, entry.id)}
+                      aria-label={`Open ${entry.title}`}
                     >
-                      <div className="lesson-step-number">
+                      <div className="lesson-step-node-index">
                         {String(index + 1).padStart(2, "0")}
                       </div>
-                      <div className="lesson-step-icon">
+                      <div className="lesson-step-node-icon">
                         <LessonIcon kind={entry.kind} />
                       </div>
-                      <div className="lesson-step-copy">
-                        <strong>{entry.title}</strong>
-                        <span>
-                          {getLessonLabel(entry.kind)} / {entry.duration}
-                        </span>
-                        <p>{entry.detail}</p>
-                      </div>
-                      <span className="lesson-step-state">
-                        {entry.completed ? "Completed" : "Pending"}
-                      </span>
-                    </article>
+                      {entry.completed
+                        ? <span className="lesson-step-node-status">Done</span>
+                        : entry.id === nextIncompleteStep?.id
+                          ? <span className="lesson-step-node-status">Next</span>
+                          : null}
+                    </Link>
                   ))}
                 </div>
+              </section>
+
+              <section className="lesson-page-card">
+                <div className="lesson-page-head">
+                  <div>
+                    <div className="lesson-page-section-title">
+                      {lesson.overviewTitle ?? "Lesson overview"}
+                    </div>
+                    <div className="lesson-page-section-subtitle">
+                      The full topic page now carries more explanation before
+                      you open the smaller lesson icons.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="step-paragraph-stack">
+                  {lessonParagraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </section>
+
+              <section className="lesson-page-card">
+                <div className="lesson-page-head">
+                  <div>
+                    <div className="lesson-page-section-title">
+                      Visual learning
+                    </div>
+                    <div className="lesson-page-section-subtitle">
+                      GIF-style motion cues and a video-style lesson breakdown
+                      for this topic.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="step-media-grid">
+                  <article className="step-media-card">
+                    <div className="step-media-stage gif" aria-hidden="true">
+                      <span className="step-media-road" />
+                      <span className="step-media-car" />
+                      <span className="step-media-sign" />
+                    </div>
+                    <strong>GIF drill</strong>
+                    <div className="step-media-copy">
+                      {lessonGifNotes.map((note) => (
+                        <p key={note}>{note}</p>
+                      ))}
+                    </div>
+                  </article>
+
+                  <article className="step-media-card">
+                    <div className="step-media-stage video" aria-hidden="true">
+                      <span className="step-video-wave first" />
+                      <span className="step-video-wave second" />
+                      <span className="step-video-play" />
+                    </div>
+                    <strong>Video guide</strong>
+                    <ol className="step-video-list">
+                      {lessonVideoChapters.map((chapter) => (
+                        <li key={chapter}>{chapter}</li>
+                      ))}
+                    </ol>
+                  </article>
+                </div>
+              </section>
+
+              <section className="lesson-page-card">
+                <div className="lesson-page-head">
+                  <div>
+                    <div className="lesson-page-section-title">
+                      Key lesson points
+                    </div>
+                    <div className="lesson-page-section-subtitle">
+                      Carry these points into the practical lesson and the step
+                      pages.
+                    </div>
+                  </div>
+                </div>
+
+                <ul className="step-point-list">
+                  {lessonPoints.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
               </section>
 
               <section className="lesson-page-card">

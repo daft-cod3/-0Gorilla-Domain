@@ -10,6 +10,10 @@ function cloneUnits(units) {
   }));
 }
 
+function getCompletedSteps(lesson) {
+  return lesson.lessons.filter((entry) => entry.completed).length;
+}
+
 function buildProgressPayload(units) {
   return {
     lessons: units.flatMap((unit) =>
@@ -23,18 +27,68 @@ function buildProgressPayload(units) {
   };
 }
 
+export function deriveLearningProgress(units) {
+  const clonedUnits = cloneUnits(units);
+
+  return clonedUnits.map((unit) => {
+    const lessons = unit.lessons.map((lesson) => {
+      const completedSteps = getCompletedSteps(lesson);
+      const totalSteps = lesson.lessons.length;
+      const progress = totalSteps
+        ? Math.round((completedSteps / totalSteps) * 100)
+        : 0;
+
+      return {
+        ...lesson,
+        completedSteps,
+        totalSteps,
+        progress,
+        isLocked: false,
+      };
+    });
+
+    const completedSubLessons = lessons.reduce(
+      (sum, lesson) => sum + lesson.completedSteps,
+      0,
+    );
+    const totalSubLessons = lessons.reduce(
+      (sum, lesson) => sum + lesson.totalSteps,
+      0,
+    );
+    const completedLessons = lessons.filter(
+      (lesson) => lesson.progress === 100,
+    ).length;
+    const progress = totalSubLessons
+      ? Math.round((completedSubLessons / totalSubLessons) * 100)
+      : 0;
+    const isComplete =
+      lessons.length > 0 && completedLessons === lessons.length;
+
+    return {
+      ...unit,
+      unlocked: true,
+      isComplete,
+      lessons,
+      completedLessons,
+      completedSubLessons,
+      totalSubLessons,
+      progress,
+    };
+  });
+}
+
 export function hydrateLearningProgress(units) {
   const clonedUnits = cloneUnits(units);
 
   if (typeof window === "undefined") {
-    return clonedUnits;
+    return deriveLearningProgress(clonedUnits);
   }
 
   try {
     const stored = window.localStorage.getItem(LEARNING_PROGRESS_KEY);
 
     if (!stored) {
-      return clonedUnits;
+      return deriveLearningProgress(clonedUnits);
     }
 
     const payload = JSON.parse(stored);
@@ -47,26 +101,28 @@ export function hydrateLearningProgress(units) {
         : [],
     );
 
-    return clonedUnits.map((unit) => ({
-      ...unit,
-      lessons: unit.lessons.map((lesson) => {
-        const completedStepIds = progressMap.get(lesson.id);
+    return deriveLearningProgress(
+      clonedUnits.map((unit) => ({
+        ...unit,
+        lessons: unit.lessons.map((lesson) => {
+          const completedStepIds = progressMap.get(lesson.id);
 
-        if (!completedStepIds) {
-          return lesson;
-        }
+          if (!completedStepIds) {
+            return lesson;
+          }
 
-        return {
-          ...lesson,
-          lessons: lesson.lessons.map((entry) => ({
-            ...entry,
-            completed: completedStepIds.has(entry.id),
-          })),
-        };
-      }),
-    }));
+          return {
+            ...lesson,
+            lessons: lesson.lessons.map((entry) => ({
+              ...entry,
+              completed: completedStepIds.has(entry.id),
+            })),
+          };
+        }),
+      })),
+    );
   } catch {
-    return clonedUnits;
+    return deriveLearningProgress(clonedUnits);
   }
 }
 

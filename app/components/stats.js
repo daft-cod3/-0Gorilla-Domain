@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   heroMetrics,
-  profileBalances,
   profileDetails,
   profilePerformanceCards,
   studentProfile,
@@ -40,6 +38,9 @@ function getUnitProgressRows(units) {
   });
 }
 
+const PROFILE_IMAGE_KEY = "godomain-profile-image";
+const DEFAULT_PROFILE_IMAGE = "/student-profile-avatar.svg";
+
 const profileHighlights = [
   {
     label: "Track",
@@ -67,22 +68,52 @@ export default function Stats() {
   const [unitProgress, setUnitProgress] = useState(() =>
     getUnitProgressRows(learningUnits),
   );
+  const [profileImage, setProfileImage] = useState(DEFAULT_PROFILE_IMAGE);
 
   useEffect(() => {
     setUnitProgress(
       getUnitProgressRows(hydrateLearningProgress(learningUnits)),
     );
+
+    const storedProfileImage = window.localStorage.getItem(PROFILE_IMAGE_KEY);
+
+    if (storedProfileImage) {
+      setProfileImage(storedProfileImage);
+    }
   }, []);
+
+  function handleProfileImageChange(event) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result !== "string") {
+        return;
+      }
+
+      setProfileImage(reader.result);
+      window.localStorage.setItem(PROFILE_IMAGE_KEY, reader.result);
+    };
+
+    reader.readAsDataURL(file);
+    event.target.value = "";
+  }
 
   return (
     <div className="stats-shell profile-shell">
       <header className="stats-hero-block profile-hero-block">
-        <div>
+        <div className="profile-hero-copy">
           <div className="stats-eyebrow">User profile</div>
           <h1 className="stats-title">{studentProfile.name}</h1>
           <p className="stats-subtitle">
-            Personal details, progress, energy, and coins now live inside the
-            profile hub on this page.
+            Personal details and course progress stay compact here, while the
+            shared top navbar keeps the live learner status visible across the
+            app.
           </p>
 
           <div className="profile-hero-tags">
@@ -96,13 +127,22 @@ export default function Stats() {
         </div>
 
         <div className="profile-hero-summary">
-          <div className="profile-hero-avatar">
-            <Image
-              src="/student-profile-avatar.svg"
-              alt={`${studentProfile.name} profile illustration`}
-              width={160}
-              height={160}
-              priority
+          <div className="profile-hero-avatar-shell">
+            <div className="profile-hero-avatar">
+              <img
+                src={profileImage}
+                alt={`${studentProfile.name} profile`}
+              />
+            </div>
+            <label className="profile-avatar-upload" htmlFor="profile-avatar">
+              Upload photo
+            </label>
+            <input
+              id="profile-avatar"
+              className="profile-avatar-input"
+              type="file"
+              accept="image/*"
+              onChange={handleProfileImageChange}
             />
           </div>
           <div className="profile-hero-meta">
@@ -113,129 +153,97 @@ export default function Stats() {
         </div>
       </header>
 
-      <div className="stats-brutal-grid profile-page-grid">
-        <section className="stats-panel profile-balance-panel">
-          <div className="stats-section-head">
-            <div className="stats-section-title">HP, energy, and coins</div>
-            <div className="stats-section-subtitle">
-              Vertical progress bars give a quick view of the learner balance
-              state.
+      <div className="profile-page-grid">
+        <div className="profile-main-stack">
+          <section className="stats-panel profile-details-panel">
+            <div className="stats-section-head">
+              <div className="stats-section-title">Personal details</div>
+              <div className="stats-section-subtitle">
+                The core learner record stays editable and easy to scan.
+              </div>
             </div>
-          </div>
 
-          <div className="profile-balance-grid">
-            {profileBalances.map((balance) => {
-              const fillHeight = Math.round(
-                (balance.value / balance.capacity) * 100,
-              );
-
-              return (
-                <article
-                  key={balance.id}
-                  className={`profile-balance-card ${balance.tone}`}
-                >
-                  <div className="profile-balance-bar">
-                    <span style={{ height: `${fillHeight}%` }} />
-                  </div>
-                  <strong>
-                    {balance.value}/{balance.capacity}
-                  </strong>
-                  <div className="profile-balance-label">{balance.label}</div>
-                  <p>{balance.note}</p>
+            <div className="profile-detail-grid">
+              {profileDetails.map((detail) => (
+                <article key={detail.label} className="profile-detail-card">
+                  <span>{detail.label}</span>
+                  <strong>{detail.value}</strong>
+                  <p>{detail.hint}</p>
                 </article>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="stats-panel profile-details-panel">
-          <div className="stats-section-head">
-            <div className="stats-section-title">Personal details</div>
-            <div className="stats-section-subtitle">
-              The user profile details previously shown in settings now live
-              here.
+              ))}
             </div>
-          </div>
+          </section>
 
-          <div className="profile-detail-grid">
-            {profileDetails.map((detail) => (
-              <article key={detail.label} className="profile-detail-card">
-                <span>{detail.label}</span>
-                <strong>{detail.value}</strong>
-                <p>{detail.hint}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="stats-panel progress-panel">
-          <div className="stats-section-head">
-            <div className="stats-section-title">Learning progress</div>
-            <div className="stats-section-subtitle">
-              Unit completion is still visible here so the profile stays tied to
-              actual course movement.
+          <section className="stats-panel progress-panel">
+            <div className="stats-section-head">
+              <div className="stats-section-title">Learning progress</div>
+              <div className="stats-section-subtitle">
+                Unit completion stays tied to the actual lesson route.
+              </div>
             </div>
-          </div>
 
-          <div className="stats-progress-stack">
-            {unitProgress.map((unit) => (
-              <article key={unit.id} className="stats-progress-row-card">
-                <div className="stats-progress-row-head">
-                  <div>
-                    <strong>{unit.label}</strong>
-                    <span>{unit.title}</span>
+            <div className="stats-progress-stack">
+              {unitProgress.map((unit) => (
+                <article key={unit.id} className="stats-progress-row-card">
+                  <div className="stats-progress-row-head">
+                    <div>
+                      <strong>{unit.label}</strong>
+                      <span>{unit.title}</span>
+                    </div>
+                    <div
+                      className={`stats-progress-lock ${
+                        unit.unlocked ? "open" : "locked"
+                      }`}
+                    >
+                      {unit.unlocked ? "Open" : "Locked"}
+                    </div>
                   </div>
-                  <div
-                    className={`stats-progress-lock ${
-                      unit.unlocked ? "open" : "locked"
-                    }`}
-                  >
-                    {unit.unlocked ? "Open" : "Locked"}
+                  <div className="stats-progress-row-meta">
+                    <span>
+                      {unit.completedLessons}/{unit.totalLessons} lessons
+                      complete
+                    </span>
+                    <strong>{unit.progress}%</strong>
                   </div>
-                </div>
-                <div className="stats-progress-row-meta">
-                  <span>
-                    {unit.completedLessons}/{unit.totalLessons} lessons complete
-                  </span>
-                  <strong>{unit.progress}%</strong>
-                </div>
-                <div className="stats-progress-row-bar" aria-hidden="true">
-                  <span style={{ width: `${unit.progress}%` }} />
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="stats-panel performance-panel">
-          <div className="stats-section-head">
-            <div className="stats-section-title">Profile snapshot</div>
-            <div className="stats-section-subtitle">
-              Course momentum, key learner markers, and next action in one
-              block.
+                  <div className="stats-progress-row-bar" aria-hidden="true">
+                    <span style={{ width: `${unit.progress}%` }} />
+                  </div>
+                </article>
+              ))}
             </div>
-          </div>
+          </section>
+        </div>
 
-          <div className="profile-highlight-grid">
-            {profileHighlights.map((item) => (
-              <article key={item.label} className="profile-highlight-card">
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
-                <p>{item.meta}</p>
-              </article>
-            ))}
-          </div>
+        <aside className="profile-side-stack">
+          <section className="stats-panel performance-panel">
+            <div className="stats-section-head">
+              <div className="stats-section-title">Profile snapshot</div>
+              <div className="stats-section-subtitle">
+                Momentum, mentor context, and next action in one compact block.
+              </div>
+            </div>
 
-          <div className="stats-performance-grid">
-            {profilePerformanceCards.map((card) => (
-              <article key={card.label} className="stats-performance-card">
-                <span>{card.label}</span>
-                <strong>{card.value}</strong>
-                <p>{card.meta}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+            <div className="profile-highlight-grid">
+              {profileHighlights.map((item) => (
+                <article key={item.label} className="profile-highlight-card">
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                  <p>{item.meta}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="stats-performance-grid">
+              {profilePerformanceCards.map((card) => (
+                <article key={card.label} className="stats-performance-card">
+                  <span>{card.label}</span>
+                  <strong>{card.value}</strong>
+                  <p>{card.meta}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        </aside>
       </div>
     </div>
   );

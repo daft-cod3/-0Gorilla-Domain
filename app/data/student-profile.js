@@ -4,6 +4,7 @@ export const studentProfile = {
   phoneNumber: "+254 712 684 390",
   county: "Kiambu",
   drivingSchool: "GoDomain Driving Academy",
+  drivingClass: "Class B learner",
   age: "21 years",
   track: "Class B learner permit",
   nextSession: "Reverse parking drill",

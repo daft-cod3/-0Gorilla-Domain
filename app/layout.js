@@ -1,5 +1,6 @@
 import { Source_Sans_3, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import TopNavbar from "./components/top-navbar";
 import ThemeProvider from "./components/theme-provider";
 
 const displayFont = Space_Grotesk({
@@ -24,7 +25,12 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
         className={`${displayFont.variable} ${bodyFont.variable} antialiased`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <div className="root-layout">
+            <TopNavbar />
+            <div className="root-content">{children}</div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

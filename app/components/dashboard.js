@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { getLearningDayHref } from "../learn";
+import { getLearningDay, getLearningDayHref } from "../learn";
 import ContentReview from "../learn/components/contReview";
+import { JourneyIcon } from "../learn/icons";
+import ModelTownBoard from "./modelTownBoard";
 import RoadSign from "./roadSign";
 
 const teacherUploads = [
@@ -90,35 +92,12 @@ const popularLessons = [
 ];
 
 const ongoingLessons = [
-  {
-    id: "road-markings",
-    title: "Road markings",
-    meta: "Lesson 03 / Visual lane reading",
-    href: getLearningDayHref("unit-1-lesson-3"),
-    art: "art-violet",
-  },
-  {
-    id: "junction-rules",
-    title: "Junction rules",
-    meta: "Lesson 04 / Decision timing",
-    href: getLearningDayHref("unit-1-lesson-4"),
-    art: "art-rose",
-  },
-  {
-    id: "hazard-awareness",
-    title: "Hazard awareness",
-    meta: "Lesson 05 / Risk scanning",
-    href: getLearningDayHref("unit-1-lesson-5"),
-    art: "art-amber",
-  },
-  {
-    id: "live-coaching",
-    title: "Live coaching",
-    meta: "Direct instructor session / Starts now",
-    href: "/live",
-    art: "art-aqua",
-  },
-];
+  "unit-1-lesson-3",
+  "unit-1-lesson-4",
+  "unit-1-lesson-5",
+]
+  .map((dayId) => getLearningDay(dayId))
+  .filter(Boolean);
 
 const mentors = [
   {
@@ -286,25 +265,31 @@ export default function Dashboard() {
             <section className="dash-section">
               <div className="dash-section-head">
                 <div>
-                  <div className="dash-section-title">Ongoing</div>
+                  <div className="dash-section-title">Lesson progress</div>
                   <div className="dash-section-subtitle">
-                    Continue where you left off.
+                    Open a lesson icon to view the full page with notes, GIF
+                    drills, and video guides.
                   </div>
                 </div>
                 <Link className="dash-link" href="/content">
                   View all
                 </Link>
               </div>
-              <div className="dash-card-grid">
+              <div className="dash-lesson-icon-grid">
                 {ongoingLessons.map((lesson) => (
                   <Link
                     key={lesson.id}
-                    className="dash-course-card"
-                    href={lesson.href}
+                    className="dash-lesson-icon-link"
+                    href={getLearningDayHref(lesson.id)}
+                    aria-label={`Open ${lesson.title}`}
+                    title={lesson.title}
                   >
-                    <div className={`dash-card-art ${lesson.art}`} />
-                    <div className="dash-card-title">{lesson.title}</div>
-                    <div className="dash-card-meta">{lesson.meta}</div>
+                    <span className="dash-lesson-icon-shell" aria-hidden="true">
+                      <span
+                        className={`dash-lesson-icon-dot ${lesson.lessons.every((entry) => entry.completed) ? "done" : ""}`}
+                      />
+                      <JourneyIcon name={lesson.icon} />
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -357,6 +342,7 @@ export default function Dashboard() {
         </div>
 
         <RoadSign />
+        <ModelTownBoard />
       </div>
     </div>
   );
