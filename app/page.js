@@ -1,7 +1,7 @@
 import Link from "next/link";
-import DashboardSidebar from "./components/sidebar";
 import ModelTownBoard from "./components/modelTownBoard";
 import RoadSign from "./components/roadSign";
+import DashboardSidebar from "./components/sidebar";
 import TeacherUploadsSection from "./components/teacher-uploads-section";
 import { studentProfile } from "./data/student-profile";
 import { getLearningDayHref } from "./learn";
@@ -85,7 +85,11 @@ function DashboardIcon({ name }) {
   if (name === "path") {
     return (
       <svg {...props}>
-        <path d="M3.5 14.5C6.7 14.5 6.8 5.5 10 5.5C13.2 5.5 13.3 14.5 16.5 14.5" strokeLinecap="round" />
+        <title>Learning path</title>
+        <path
+          d="M3.5 14.5C6.7 14.5 6.8 5.5 10 5.5C13.2 5.5 13.3 14.5 16.5 14.5"
+          strokeLinecap="round"
+        />
         <circle cx="3.5" cy="14.5" r="1.4" fill="currentColor" stroke="none" />
         <circle cx="10" cy="5.5" r="1.4" fill="currentColor" stroke="none" />
         <circle cx="16.5" cy="14.5" r="1.4" fill="currentColor" stroke="none" />
@@ -96,7 +100,11 @@ function DashboardIcon({ name }) {
   if (name === "stats") {
     return (
       <svg {...props}>
-        <path d="M4.5 15.5V9.5M10 15.5V4.5M15.5 15.5V11.5" strokeLinecap="round" />
+        <title>Learner profile</title>
+        <path
+          d="M4.5 15.5V9.5M10 15.5V4.5M15.5 15.5V11.5"
+          strokeLinecap="round"
+        />
         <path d="M4 15.5H16" strokeLinecap="round" />
       </svg>
     );
@@ -104,6 +112,7 @@ function DashboardIcon({ name }) {
 
   return (
     <svg {...props}>
+      <title>Dashboard icon</title>
       <circle cx="10" cy="10" r="4" />
     </svg>
   );
@@ -238,14 +247,18 @@ export default function HomePage() {
                     {recentActivity.map((item) => (
                       <div key={item.title} className="dash-activity-item">
                         <div className="dash-activity-icon-wrapper">
-                          <span className="dash-activity-icon">{item.short}</span>
+                          <span className="dash-activity-icon">
+                            {item.short}
+                          </span>
                         </div>
                         <div className="dash-activity-content">
                           <div className="dash-activity-copy">
                             <strong>{item.title}</strong>
                             <p>{item.body}</p>
                           </div>
-                          <span className="dash-activity-time">{item.time}</span>
+                          <span className="dash-activity-time">
+                            {item.time}
+                          </span>
                         </div>
                         <div className="dash-activity-badge">{item.tag}</div>
                       </div>

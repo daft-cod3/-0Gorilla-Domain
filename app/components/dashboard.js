@@ -46,9 +46,10 @@ export default function Dashboard() {
       <div className="dashboard-panel">
         <section className="dash-hero">
           <div className="dash-hero-content">
-            <div className="dash-hero-tag">Student progress hub</div>
+            <div className="dash-hero-tag">Progress hub</div>
             <h1 className="dash-hero-title">
-              Track the live unit, lesson momentum, and review unlocks in one place.
+              Track the live unit, lesson momentum, and review unlocks in one
+              place.
             </h1>
             <p className="dash-hero-subtitle">
               Work through notes, boards, signs, and quizzes on the learning
@@ -57,14 +58,26 @@ export default function Dashboard() {
             </p>
             <div className="dash-hero-actions">
               <Link className="dash-hero-button primary" href="/content">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
                 Open learning path
               </Link>
               <Link className="dash-hero-button secondary" href="/stats">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 View progress
               </Link>
@@ -135,8 +148,14 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <Link className="dash-link" href="/stats">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M9 5l7 7-7 7"/>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    aria-hidden="true"
+                  >
+                    <path d="M9 5l7 7-7 7" />
                   </svg>
                   View all
                 </Link>

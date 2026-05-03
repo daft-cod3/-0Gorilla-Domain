@@ -14,15 +14,30 @@ export default function TeacherUploadDetail({ upload }) {
           <h1 className="upload-detail-title">{upload.title}</h1>
           <p className="upload-detail-summary">{upload.intro}</p>
           <div className="upload-detail-actions">
-            <Link className="upload-detail-primary" href={upload.relatedLessonHref}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+            <Link
+              className="upload-detail-primary"
+              href={upload.relatedLessonHref}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <title>Open related lesson</title>
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
               Start Related Lesson
             </Link>
             <Link className="upload-detail-secondary" href="/dashboard">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <title>Back to dashboard</title>
+                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
               Back to Dashboard
             </Link>

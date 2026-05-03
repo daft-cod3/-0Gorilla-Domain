@@ -124,7 +124,8 @@ export default function MessagesPanel() {
           <div className="messages-eyebrow">Messages</div>
           <h1 className="messages-title">Teacher Conversations</h1>
           <p className="messages-subtitle">
-            Connect with your instructors, get personalized feedback, and track your learning progress through direct communication.
+            Connect with your instructors, get personalized feedback, and track
+            your learning progress through direct communication.
           </p>
         </div>
         <div className="messages-status-card">
@@ -154,14 +155,16 @@ export default function MessagesPanel() {
                 <span className="message-thread-copy">
                   <span className="message-thread-head">
                     <strong>{thread.teacher}</strong>
-                    {thread.unread ? (
-                      <span className="message-thread-unread">
-                        {thread.unread}
-                      </span>
-                    ) : null}
+                    {thread.unread
+                      ? <span className="message-thread-unread">
+                          {thread.unread}
+                        </span>
+                      : null}
                   </span>
                   <span className="message-thread-course">{thread.course}</span>
-                  <span className="message-thread-preview">{thread.preview}</span>
+                  <span className="message-thread-preview">
+                    {thread.preview}
+                  </span>
                 </span>
               </button>
             );
@@ -171,7 +174,9 @@ export default function MessagesPanel() {
         <div className="messages-window">
           <div className="messages-window-head">
             <div>
-              <div className="messages-window-title">{activeThread.teacher}</div>
+              <div className="messages-window-title">
+                {activeThread.teacher}
+              </div>
               <div className="messages-window-meta">{activeThread.course}</div>
             </div>
             <span className="messages-online-pill">Available</span>

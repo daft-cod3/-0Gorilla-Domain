@@ -210,8 +210,8 @@ export default async function LearningDayPage({ params }) {
                     {lesson.overviewTitle ?? "Lesson overview"}
                   </div>
                   <div className="lesson-page-section-subtitle">
-                    The full topic page now carries more explanation before
-                    you open the smaller lesson icons.
+                    The full topic page now carries more explanation before you
+                    open the smaller lesson icons.
                   </div>
                 </div>
               </div>
@@ -230,8 +230,8 @@ export default async function LearningDayPage({ params }) {
                     Visual learning
                   </div>
                   <div className="lesson-page-section-subtitle">
-                    GIF-style motion cues and a video-style lesson breakdown
-                    for this topic.
+                    GIF-style motion cues and a video-style lesson breakdown for
+                    this topic.
                   </div>
                 </div>
               </div>
@@ -290,9 +290,7 @@ export default async function LearningDayPage({ params }) {
             <section className="lesson-page-card">
               <div className="lesson-page-head">
                 <div>
-                  <div className="lesson-page-section-title">
-                    Result system
-                  </div>
+                  <div className="lesson-page-section-title">Result system</div>
                   <div className="lesson-page-section-subtitle">
                     The lesson page now tracks what the user earns and what
                     still needs to be cleared.
@@ -314,12 +312,10 @@ export default async function LearningDayPage({ params }) {
             <section className="lesson-page-card">
               <div className="lesson-page-head">
                 <div>
-                  <div className="lesson-page-section-title">
-                    Reward system
-                  </div>
+                  <div className="lesson-page-section-title">Reward system</div>
                   <div className="lesson-page-section-subtitle">
-                    Each topic now shows the outcome, reward value, and what
-                    is still pending before payout.
+                    Each topic now shows the outcome, reward value, and what is
+                    still pending before payout.
                   </div>
                 </div>
               </div>
@@ -371,9 +367,7 @@ export default async function LearningDayPage({ params }) {
 
           <aside className="lesson-page-aside">
             <section className="lesson-page-card">
-              <div className="lesson-page-section-title">
-                Progress snapshot
-              </div>
+              <div className="lesson-page-section-title">Progress snapshot</div>
               <div className="lesson-progress-panel">
                 <div
                   className="lesson-progress-ring"
@@ -383,9 +377,7 @@ export default async function LearningDayPage({ params }) {
                 </div>
                 <div className="lesson-progress-meta">
                   <strong>{completedLessons} steps complete</strong>
-                  <span>
-                    {totalLessons - completedLessons} steps remaining
-                  </span>
+                  <span>{totalLessons - completedLessons} steps remaining</span>
                 </div>
               </div>
             </section>

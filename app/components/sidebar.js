@@ -134,28 +134,29 @@ export default function Sidebar({ active = "dashboard" }) {
     setExpanded(true);
   }
 
+  function handleShellBlur(event) {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      pendingNavCollapseRef.current = false;
+      setExpanded(false);
+    }
+  }
+
   return (
-    <div
+    <aside
       className="sb-shell"
       data-expanded={expanded}
+      aria-label="Primary navigation"
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => {
         if (!pendingNavCollapseRef.current) setExpanded(false);
       }}
+      onFocus={() => setExpanded(true)}
+      onBlur={handleShellBlur}
     >
-      <aside
+      <div
         className={`sb-panel${expanded ? " expanded" : ""}`}
         id="app-sidebar"
-        aria-label="Primary navigation"
       >
-        <div className="sb-brand">
-          <span className="sb-brand-mark">GD</span>
-          <span className="sb-text sb-brand-text">
-            <span className="sb-brand-name">GoDomain</span>
-            <span className="sb-brand-sub">Driving School</span>
-          </span>
-        </div>
-
         <nav className="sb-nav">
           {NAV_ITEMS.map((item) => {
             const isActive = item.id === activeSection;
@@ -189,13 +190,15 @@ export default function Sidebar({ active = "dashboard" }) {
             <div className="sb-streak-bar">
               <span style={{ width: "78%" }} />
             </div>
-            <p className="sb-streak-note">2 more activities to unlock bonus gems.</p>
+            <p className="sb-streak-note">
+              2 more activities to unlock bonus gems.
+            </p>
           </div>
           <Link className="sb-cta" href="/content">
             Continue learning
           </Link>
         </div>
-      </aside>
-    </div>
+      </div>
+    </aside>
   );
 }

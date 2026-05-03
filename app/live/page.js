@@ -46,8 +46,8 @@ export default function LivePage() {
               <div className="live-eyebrow">Live lessons</div>
               <h1 className="live-title">Classes and meetings</h1>
               <p className="live-subtitle">
-                Join scheduled live classes, enter teacher meetings, and keep
-                up with the latest session room links.
+                Join scheduled live classes, enter teacher meetings, and keep up
+                with the latest session room links.
               </p>
             </div>
             <Link className="live-hero-link" href="/messages">

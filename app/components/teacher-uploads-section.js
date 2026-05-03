@@ -63,7 +63,10 @@ function UploadCard({ upload, unseen, onMarkSeen }) {
           {unseen ? "Waiting for review" : "Marked as seen"}
         </span>
         <div className="teacher-card-actions">
-          <Link className="teacher-secondary-action" href={upload.relatedLessonHref}>
+          <Link
+            className="teacher-secondary-action"
+            href={upload.relatedLessonHref}
+          >
             Lesson
           </Link>
           <Link className="teacher-primary-action" href={upload.href}>
@@ -89,7 +92,7 @@ export default function TeacherUploadsSection() {
 
     const stored = window.localStorage.getItem(UNSEEN_UPLOADS_KEY);
     if (!stored) {
-      persistUnseenMap(unseenMap);
+      persistUnseenMap(getInitialUnseenMap());
       return;
     }
 
@@ -101,7 +104,7 @@ export default function TeacherUploadsSection() {
       };
       setUnseenMap(nextState);
     } catch {
-      persistUnseenMap(unseenMap);
+      persistUnseenMap(getInitialUnseenMap());
     }
   }, []);
 
@@ -132,9 +135,7 @@ export default function TeacherUploadsSection() {
         </div>
         <div className="teacher-uploads-summary">
           <span className="teacher-summary-pill">
-            {
-              Object.values(optimisticUnseenMap).filter((value) => value).length
-            }{" "}
+            {Object.values(optimisticUnseenMap).filter((value) => value).length}{" "}
             unseen
           </span>
         </div>

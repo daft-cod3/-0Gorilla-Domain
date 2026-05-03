@@ -8,7 +8,10 @@ import {
 import { LessonIcon } from "../../../../learn/icons";
 
 function normalizeText(value) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
 }
 
 function getStepKindLabel(kind) {
@@ -90,7 +93,9 @@ export default async function LearningStepPage({ params }) {
   const { lesson, step } = stepEntry;
   const lessonIndex = lesson.lessons.findIndex((entry) => entry.id === step.id);
   const nextStep =
-    lessonIndex < lesson.lessons.length - 1 ? lesson.lessons[lessonIndex + 1] : null;
+    lessonIndex < lesson.lessons.length - 1
+      ? lesson.lessons[lessonIndex + 1]
+      : null;
   const topic = getMatchingTopic(lesson, step);
   const paragraphs = getStepParagraphs(lesson, step, topic);
   const videoChapters = getVideoChapters(step, topic);
@@ -152,9 +157,7 @@ export default async function LearningStepPage({ params }) {
             <section className="lesson-page-card">
               <div className="lesson-page-head">
                 <div>
-                  <div className="lesson-page-section-title">
-                    Media support
-                  </div>
+                  <div className="lesson-page-section-title">Media support</div>
                   <div className="lesson-page-section-subtitle">
                     GIF-style motion cues and a video-style teaching breakdown.
                   </div>

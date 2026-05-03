@@ -316,19 +316,17 @@ function PointList({ items, ordered = false, compact = false, tone = "blue" }) {
       {items.map((item, index) => (
         <li key={item} className="model-town-point-item">
           <span className="model-town-point-marker" aria-hidden="true">
-            {ordered ? (
-              String(index + 1).padStart(2, "0")
-            ) : (
-              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path
-                  d="M3.5 8.5L6.5 11.5L12.5 4.5"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
+            {ordered
+              ? String(index + 1).padStart(2, "0")
+              : <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path
+                    d="M3.5 8.5L6.5 11.5L12.5 4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>}
           </span>
           <span className="model-town-point-copy">{item}</span>
         </li>

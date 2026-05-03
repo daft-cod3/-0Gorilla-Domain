@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import {
-  resolveTheme,
-  THEME_EVENT,
-  THEME_KEY,
-} from "./theme-state";
+import { resolveTheme, THEME_EVENT, THEME_KEY } from "./theme-state";
 
 export default function ThemeProvider({ children }) {
   useEffect(() => {

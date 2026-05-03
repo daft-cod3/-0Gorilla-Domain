@@ -30,18 +30,15 @@ const uploadBlueprints = [
     sections: [
       {
         title: "What is inside",
-        body:
-          "The pack groups markings into center lines, directional arrows, edge guidance, and stop controls so the learner can compare similar visuals without losing context.",
+        body: "The pack groups markings into center lines, directional arrows, edge guidance, and stop controls so the learner can compare similar visuals without losing context.",
       },
       {
         title: "How to use it",
-        body:
-          "Scan the scene, name the marking, then say the safe response before reading the caption. That sequence builds faster recall than reading first.",
+        body: "Scan the scene, name the marking, then say the safe response before reading the caption. That sequence builds faster recall than reading first.",
       },
       {
         title: "Why it matters",
-        body:
-          "Road markings are often ignored until the learner is already too close. This wall trains earlier recognition and calmer decisions.",
+        body: "Road markings are often ignored until the learner is already too close. This wall trains earlier recognition and calmer decisions.",
       },
     ],
     nextSteps: [
@@ -79,18 +76,15 @@ const uploadBlueprints = [
     sections: [
       {
         title: "Chapter flow",
-        body:
-          "The video moves from early observation to priority choice, then ends with left-turn and right-turn examples that expose the most common hesitation points.",
+        body: "The video moves from early observation to priority choice, then ends with left-turn and right-turn examples that expose the most common hesitation points.",
       },
       {
         title: "Recommended routine",
-        body:
-          "Watch once without stopping, then replay the difficult moments and answer the priority question before the teacher explains it.",
+        body: "Watch once without stopping, then replay the difficult moments and answer the priority question before the teacher explains it.",
       },
       {
         title: "Expected outcome",
-        body:
-          "Learners should leave with cleaner junction timing, less rushed entry, and better awareness of hidden risks near the final turn.",
+        body: "Learners should leave with cleaner junction timing, less rushed entry, and better awareness of hidden risks near the final turn.",
       },
     ],
     nextSteps: [
@@ -128,18 +122,15 @@ const uploadBlueprints = [
     sections: [
       {
         title: "Question style",
-        body:
-          "Each prompt asks for the earliest risk clue or the safest first response, which keeps attention on anticipation rather than emergency correction.",
+        body: "Each prompt asks for the earliest risk clue or the safest first response, which keeps attention on anticipation rather than emergency correction.",
       },
       {
         title: "Scoring logic",
-        body:
-          "Correct answers reward calm early choices such as speed reduction, wider observation, and leaving more space before the danger is fully visible.",
+        body: "Correct answers reward calm early choices such as speed reduction, wider observation, and leaving more space before the danger is fully visible.",
       },
       {
         title: "Revision link",
-        body:
-          "Weak quiz areas should be replayed inside the hazard-awareness lesson so the visual cue and the correct response stay connected.",
+        body: "Weak quiz areas should be replayed inside the hazard-awareness lesson so the visual cue and the correct response stay connected.",
       },
     ],
     nextSteps: [
@@ -177,18 +168,15 @@ const uploadBlueprints = [
     sections: [
       {
         title: "Pack structure",
-        body:
-          "The material starts with sign groups, then narrows into quick visual prompts and short explanations of what the driver must do immediately after recognition.",
+        body: "The material starts with sign groups, then narrows into quick visual prompts and short explanations of what the driver must do immediately after recognition.",
       },
       {
         title: "Best revision loop",
-        body:
-          "Study the sign, name the category, state the required action, then move on. Short, repeated cycles are more effective here than one long pass.",
+        body: "Study the sign, name the category, state the required action, then move on. Short, repeated cycles are more effective here than one long pass.",
       },
       {
         title: "Assessment support",
-        body:
-          "The pack is designed to strengthen both visual recall and the reasoning behind each sign so exam choices feel less random.",
+        body: "The pack is designed to strengthen both visual recall and the reasoning behind each sign so exam choices feel less random.",
       },
     ],
     nextSteps: [

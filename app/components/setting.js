@@ -23,24 +23,22 @@ function ToggleButton({ active, onClick, label }) {
 }
 
 function ThemeIllustration({ darkMode }) {
-  return darkMode ? (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path
-        d="M21.6 5.3A11.2 11.2 0 1 0 27.2 26 12.4 12.4 0 1 1 21.6 5.3Z"
-        fill="currentColor"
-      />
-    </svg>
-  ) : (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <circle cx="16" cy="16" r="5.2" fill="currentColor" />
-      <path
-        d="M16 3.8v3.6M16 24.6v3.6M28.2 16h-3.6M7.4 16H3.8M24.7 7.3l-2.6 2.6M9.9 22.1l-2.6 2.6M24.7 24.7l-2.6-2.6M9.9 9.9 7.3 7.3"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
+  return darkMode
+    ? <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path
+          d="M21.6 5.3A11.2 11.2 0 1 0 27.2 26 12.4 12.4 0 1 1 21.6 5.3Z"
+          fill="currentColor"
+        />
+      </svg>
+    : <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="5.2" fill="currentColor" />
+        <path
+          d="M16 3.8v3.6M16 24.6v3.6M28.2 16h-3.6M7.4 16H3.8M24.7 7.3l-2.6 2.6M9.9 22.1l-2.6 2.6M24.7 24.7l-2.6-2.6M9.9 9.9 7.3 7.3"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>;
 }
 
 export default function Setting() {
@@ -131,7 +129,11 @@ export default function Setting() {
               <p>Switch between bright and low-glare mode.</p>
             </div>
           </div>
-          <ToggleButton active={darkMode} onClick={toggleTheme} label="Toggle application theme" />
+          <ToggleButton
+            active={darkMode}
+            onClick={toggleTheme}
+            label="Toggle application theme"
+          />
         </div>
 
         <div className="settings-preferences">
@@ -139,16 +141,24 @@ export default function Setting() {
             <div key={item.title} className="settings-preference-item">
               <div className="settings-preference-content">
                 <div className="settings-preference-title">{item.title}</div>
-                <div className="settings-preference-description">{item.description}</div>
+                <div className="settings-preference-description">
+                  {item.description}
+                </div>
               </div>
-              <ToggleButton active={item.active} onClick={item.onToggle} label={`Toggle ${item.title}`} />
+              <ToggleButton
+                active={item.active}
+                onClick={item.onToggle}
+                label={`Toggle ${item.title}`}
+              />
             </div>
           ))}
         </div>
 
         <div className="settings-chips">
           {workspaceChips.map((chip) => (
-            <span key={chip} className="settings-chip">{chip}</span>
+            <span key={chip} className="settings-chip">
+              {chip}
+            </span>
           ))}
         </div>
       </div>
@@ -158,7 +168,9 @@ export default function Setting() {
           <div className="settings-profile-section-head">
             <div>
               <div className="settings-profile-section-kicker">Preferences</div>
-              <h3 className="settings-profile-section-title">Workspace setup</h3>
+              <h3 className="settings-profile-section-title">
+                Workspace setup
+              </h3>
             </div>
           </div>
 
@@ -170,13 +182,23 @@ export default function Setting() {
                 style={{ "--tile-delay": `${index * 70}ms` }}
               >
                 <div className="settings-profile-detail-header">
-                  <div className="settings-profile-detail-label">{detail.label}</div>
-                  {detail.interactive ? (
-                    <ToggleButton active={detail.active} onClick={detail.onToggle} label={`Toggle ${detail.label}`} />
-                  ) : null}
+                  <div className="settings-profile-detail-label">
+                    {detail.label}
+                  </div>
+                  {detail.interactive
+                    ? <ToggleButton
+                        active={detail.active}
+                        onClick={detail.onToggle}
+                        label={`Toggle ${detail.label}`}
+                      />
+                    : null}
                 </div>
-                <div className="settings-profile-detail-value">{detail.value}</div>
-                <div className="settings-profile-detail-hint">{detail.hint}</div>
+                <div className="settings-profile-detail-value">
+                  {detail.value}
+                </div>
+                <div className="settings-profile-detail-hint">
+                  {detail.hint}
+                </div>
               </article>
             ))}
           </div>
@@ -193,7 +215,10 @@ export default function Setting() {
                     <span>{module.label}</span>
                     <span>{module.value}%</span>
                   </div>
-                  <div className="settings-progress-mini-track" aria-hidden="true">
+                  <div
+                    className="settings-progress-mini-track"
+                    aria-hidden="true"
+                  >
                     <span style={{ width: `${module.value}%` }} />
                   </div>
                 </div>
@@ -206,18 +231,28 @@ export default function Setting() {
             <h3 className="settings-profile-section-title">Quick controls</h3>
             <div className="settings-tools-list">
               {profileTools.map((tool, index) => (
-                <article key={tool.title} className="settings-tool-card" style={{ "--tile-delay": `${index * 90}ms` }}>
+                <article
+                  key={tool.title}
+                  className="settings-tool-card"
+                  style={{ "--tile-delay": `${index * 90}ms` }}
+                >
                   <div>
                     <div className="settings-tool-title">{tool.title}</div>
-                    <div className="settings-tool-description">{tool.description}</div>
+                    <div className="settings-tool-description">
+                      {tool.description}
+                    </div>
                   </div>
-                  <button className="ghost-button" type="button">Manage</button>
+                  <button className="ghost-button" type="button">
+                    Manage
+                  </button>
                 </article>
               ))}
             </div>
             <div className="settings-next-session">
               <div className="settings-next-session-label">Next practical</div>
-              <div className="settings-next-session-value">{studentProfile.nextSession}</div>
+              <div className="settings-next-session-value">
+                {studentProfile.nextSession}
+              </div>
             </div>
           </section>
         </aside>

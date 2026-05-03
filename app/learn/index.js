@@ -12,7 +12,8 @@ const unitBlueprints = [
     number: 2,
     label: "Unit 2",
     title: "Live Road Reading",
-    summary: "Five open lessons focused on live road reading and decision timing.",
+    summary:
+      "Five open lessons focused on live road reading and decision timing.",
     unlocked: true,
   },
   {
@@ -20,7 +21,8 @@ const unitBlueprints = [
     number: 3,
     label: "Unit 3",
     title: "Safe Maneuvers",
-    summary: "Five open lessons on parking, roundabouts, and emergency control.",
+    summary:
+      "Five open lessons on parking, roundabouts, and emergency control.",
     unlocked: true,
   },
   {
@@ -28,7 +30,8 @@ const unitBlueprints = [
     number: 4,
     label: "Unit 4",
     title: "Exam Readiness",
-    summary: "Five open lessons for mock tests, revision loops, and final prep.",
+    summary:
+      "Five open lessons for mock tests, revision loops, and final prep.",
     unlocked: true,
   },
   {
@@ -36,7 +39,8 @@ const unitBlueprints = [
     number: 5,
     label: "Unit 5",
     title: "Road Test Mastery",
-    summary: "Five open lessons for final test preparation and confidence building.",
+    summary:
+      "Five open lessons for final test preparation and confidence building.",
     unlocked: true,
   },
 ];

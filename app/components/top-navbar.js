@@ -34,7 +34,7 @@ const STAT_META = {
     color: "#3ecf6e",
     glow: "rgba(62,207,110,0.28)",
     track: "linear-gradient(90deg,#58d17a,#1f9f57)",
-    label: "Energy",
+    label: "en",
   },
 };
 
@@ -75,7 +75,11 @@ export default function TopNavbar() {
   return (
     <header className="top-navbar no-search">
       <div className="top-navbar-leading">
-        <Link className="top-navbar-brand" href="/" aria-label="Open GoDomain dashboard">
+        <Link
+          className="top-navbar-brand"
+          href="/"
+          aria-label="Open GoDomain dashboard"
+        >
           <span className="top-navbar-brand-mark">
             <Image
               src="/godomain-logo.svg"
@@ -86,21 +90,12 @@ export default function TopNavbar() {
           </span>
           <span className="top-navbar-brand-copy">
             <span className="top-navbar-brand-label">GoDomain</span>
-            <span className="top-navbar-brand-subtitle">Learning workspace</span>
+            <span className="top-navbar-brand-subtitle">
+              Learning workspace
+            </span>
           </span>
         </Link>
-
-        <Link
-          className="top-navbar-identity"
-          href="/stats"
-          aria-label="Open learner profile"
-        >
-          <span className="top-navbar-overline">Student</span>
-          <strong>{studentProfile.name}</strong>
-          <span>{studentProfile.drivingClass} License</span>
-        </Link>
       </div>
-
 
       <div className="top-navbar-stats">
         <button
@@ -111,40 +106,36 @@ export default function TopNavbar() {
           aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
         >
           <span className="top-navbar-theme-icon" aria-hidden="true">
-            {darkMode ? (
-              <svg viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M13.8 2.8a6.8 6.8 0 1 0 3.4 12.7A7.5 7.5 0 1 1 13.8 2.8Z"
-                  fill="currentColor"
-                />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 20 20" fill="none">
-                <circle cx="10" cy="10" r="3.1" fill="currentColor" />
-                <path
-                  d="M10 2.2V4.1M10 15.9v1.9M17.8 10h-1.9M4.1 10H2.2M15.5 4.5 14.1 5.9M5.9 14.1 4.5 15.5M15.5 15.5 14.1 14.1M5.9 5.9 4.5 4.5"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            )}
-          </span>
-          <span className="top-navbar-theme-copy">
-            <span className="top-navbar-theme-label">Theme</span>
-            <strong>{darkMode ? "Dark" : "Light"}</strong>
+            {darkMode
+              ? <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path
+                    d="M13.8 2.8a6.8 6.8 0 1 0 3.4 12.7A7.5 7.5 0 1 1 13.8 2.8Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              : <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="3.1" fill="currentColor" />
+                  <path
+                    d="M10 2.2V4.1M10 15.9v1.9M17.8 10h-1.9M4.1 10H2.2M15.5 4.5 14.1 5.9M5.9 14.1 4.5 15.5M15.5 15.5 14.1 14.1M5.9 5.9 4.5 4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>}
           </span>
         </button>
-        <NavbarMeter
-          tone="hp"
-          value={studentProfile.hp}
-          capacity={studentProfile.hpCapacity}
-        />
-        <NavbarMeter
-          tone="energy"
-          value={studentProfile.energy}
-          capacity={studentProfile.energyCapacity}
-        />
+        <fieldset className="top-navbar-vitals" aria-label="Learner vitals">
+          <NavbarMeter
+            tone="hp"
+            value={studentProfile.hp}
+            capacity={studentProfile.hpCapacity}
+          />
+          <NavbarMeter
+            tone="energy"
+            value={studentProfile.energy}
+            capacity={studentProfile.energyCapacity}
+          />
+        </fieldset>
         <Link
           className="top-navbar-coins"
           href="/stats"
@@ -173,12 +164,9 @@ export default function TopNavbar() {
               </text>
             </svg>
           </span>
-          <div className="top-navbar-coins-body">
-            <span className="top-navbar-coins-label">Coins</span>
-            <strong className="top-navbar-coins-val">
-              {studentProfile.coins}
-            </strong>
-          </div>
+          <strong className="top-navbar-coins-val">
+            {studentProfile.coins}
+          </strong>
         </Link>
       </div>
     </header>
