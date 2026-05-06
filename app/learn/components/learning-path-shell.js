@@ -220,7 +220,7 @@ function Chest({ unlocked, claimed }) {
 function Tooltip({ href, label }) {
   return (
     <div className="lp-tooltip">
-      <Link className="lp-tooltip-cta" href={href}>
+      <Link className="lp-tooltip-cta lp-text-box" href={href}>
         {label}
       </Link>
       <div className="lp-tooltip-arrow" />
@@ -231,15 +231,15 @@ function Tooltip({ href, label }) {
 function UnitBanner({ unit }) {
   return (
     <section className="lp-banner">
-      <div className="lp-banner-copy">
-        <span className="lp-banner-eyebrow">
+      <div className="lp-banner-copy lp-text-panel">
+        <span className="lp-banner-eyebrow lp-text-box">
           {unit.label} / {unit.completedLessons} of {unit.lessons.length}{" "}
           lessons
         </span>
-        <h2 className="lp-banner-title">{unit.title}</h2>
-        <p className="lp-banner-guide">{unit.summary}</p>
+        <h2 className="lp-banner-title lp-text-box">{unit.title}</h2>
+        <p className="lp-banner-guide lp-text-box">{unit.summary}</p>
       </div>
-      <div className="lp-banner-progress">
+      <div className="lp-banner-progress lp-text-panel">
         <span>{unit.progress}%</span>
         <div className="lp-banner-progress-track" aria-hidden="true">
           <i style={{ width: `${unit.progress}%` }} />
@@ -314,6 +314,13 @@ function LessonNode({ lesson, lessonIndex, isCurrent, navigateLesson }) {
           navigateLesson(lesson.id);
         }}
         aria-label={`${day}: ${lesson.title}${inert ? " unavailable" : ""}`}
+        title={
+          inert
+            ? `${day} is locked`
+            : isCurrent && !done
+              ? `Start ${day}: ${lesson.title}`
+              : `Open ${day}: ${lesson.title}`
+        }
         disabled={inert}
         style={{
           "--seg-1": filledSegments >= 1 ? segmentColor : emptySegmentColor,
@@ -341,7 +348,9 @@ function LessonNode({ lesson, lessonIndex, isCurrent, navigateLesson }) {
         <Stars earned={starRating} />
       </div>
 
-      <span className="lp-node-day lp-node-day-interactive">{day}</span>
+      <span className="lp-node-day lp-node-day-interactive lp-text-box">
+        {day}
+      </span>
     </div>
   );
 }
@@ -391,7 +400,7 @@ function UnitSection({ unit, currentLessonId, onNavigateLesson }) {
                   <div className="lp-side lp-side--left">
                     <Chest unlocked={chestUnlocked} claimed={chestClaimed} />
                     {!chestClaimed && (
-                      <span className="lp-chest-hint">
+                      <span className="lp-chest-hint lp-text-box">
                         {lessonsLeft} to unlock
                       </span>
                     )}
@@ -412,7 +421,7 @@ function UnitSection({ unit, currentLessonId, onNavigateLesson }) {
                   <NodeIcon type="trophy" color="#b0b8c4" />
                 </span>
               </div>
-              <span className="lp-node-day">Unit end</span>
+              <span className="lp-node-day lp-text-box">Unit end</span>
             </div>
           </div>
         </div>
@@ -479,7 +488,7 @@ export default function LearningPathShell() {
         <div className="lp-topbar-track">
           <div className="lp-topbar-fill" style={{ width: `${pct}%` }} />
         </div>
-        <span className="lp-topbar-label">
+        <span className="lp-topbar-label lp-text-box">
           {pct}% · {completedLessons}/{totalLessons} lessons
         </span>
       </div>
@@ -506,7 +515,7 @@ export default function LearningPathShell() {
         >
           Previous
         </button>
-        <span className="lp-unit-nav-status">
+        <span className="lp-unit-nav-status lp-text-box">
           Unit {activeUnitIndex + 1} of {units.length}
         </span>
         <button

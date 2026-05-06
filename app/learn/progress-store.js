@@ -29,6 +29,7 @@ function buildProgressPayload(units) {
 
 export function deriveLearningProgress(units) {
   const clonedUnits = cloneUnits(units);
+  let previousLessonComplete = true;
 
   return clonedUnits.map((unit) => {
     const lessons = unit.lessons.map((lesson) => {
@@ -37,13 +38,16 @@ export function deriveLearningProgress(units) {
       const progress = totalSteps
         ? Math.round((completedSteps / totalSteps) * 100)
         : 0;
+      const isComplete = totalSteps > 0 && completedSteps === totalSteps;
+      const isLocked = !previousLessonComplete;
+      previousLessonComplete = previousLessonComplete && isComplete;
 
       return {
         ...lesson,
         completedSteps,
         totalSteps,
         progress,
-        isLocked: false,
+        isLocked,
       };
     });
 
@@ -66,7 +70,7 @@ export function deriveLearningProgress(units) {
 
     return {
       ...unit,
-      unlocked: true,
+      unlocked: lessons.some((lesson) => !lesson.isLocked || lesson.progress > 0),
       isComplete,
       lessons,
       completedLessons,

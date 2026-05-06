@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { studentProfile } from "../../data/student-profile";
 import { getLearningDayHref, learningUnits } from "..";
 import { JourneyIcon } from "../icons";
 import {
@@ -146,9 +145,9 @@ function buildAreaPath(nodes, height, padding) {
 }
 
 function UnitProgressGraph({ unit }) {
-  const width = 260;
-  const height = 110;
-  const padding = 14;
+  const width = 220;
+  const height = 72;
+  const padding = 10;
   const nodes = getGraphNodes(unit.lessons, width, height, padding);
   const linePath = buildLinePath(nodes);
   const areaPath = buildAreaPath(nodes, height, padding);
@@ -254,99 +253,50 @@ function FeaturedUnitCard({ unit }) {
     [...unit.lessons].sort(
       (left, right) => right.progress - left.progress,
     )[0] ?? null;
-  const coveredTopics = unit.coveredTopics.length
-    ? unit.coveredTopics.slice(0, 3)
-    : ["No topics covered yet"];
 
   return (
-    <article className="review-unit-spotlight">
-      <div className="review-unit-spotlight-copy">
-        <div className="review-unit-spotlight-head">
-          <div>
-            <div className="review-card-kicker">Featured student unit</div>
-            <div className="review-unit-spotlight-title">
-              {unit.label}: {unit.title}
-            </div>
-          </div>
-
-          <div className="review-unit-badge-row">
-            <span className="review-unit-chip">{state}</span>
-            <span className="review-unit-chip accent">{unit.progress}%</span>
+    <article className="review-unit-row">
+      <div className="review-unit-row-main">
+        <div>
+          <div className="review-card-kicker">Current unit</div>
+          <div className="review-unit-spotlight-title">
+            {unit.label}: {unit.title}
           </div>
         </div>
-
-        <p className="review-unit-spotlight-summary">
-          {unit.summary} {studentProfile.name.split(" ")[0]} has covered{" "}
-          {unit.coveredLessons.length} of {unit.lessons.length} lessons in this
-          lane, with the strongest lesson and next move kept visible in one
-          compact panel.
-        </p>
-
-        <div className="review-unit-stat-grid">
-          <article className="review-unit-stat">
-            <span>Unit progress</span>
-            <strong>{unit.progress}%</strong>
-          </article>
-          <article className="review-unit-stat">
-            <span>Lessons cleared</span>
-            <strong>
-              {completedLessons}/{unit.lessons.length}
-            </strong>
-          </article>
-          <article className="review-unit-stat">
-            <span>Completed steps</span>
-            <strong>
-              {unit.completedSubLessons}/{unit.totalSubLessons}
-            </strong>
-          </article>
-          <article className="review-unit-stat">
-            <span>Strongest lesson</span>
-            <strong>{strongestLesson?.progress ?? 0}%</strong>
-          </article>
-        </div>
-
-        <div className="review-topic-list">
-          {coveredTopics.map((topic) => (
-            <span
-              key={topic}
-              className={`review-topic-pill${
-                topic === "No topics covered yet" ? " muted" : ""
-              }`}
-            >
-              {topic}
-            </span>
-          ))}
-        </div>
-
-        <div className="review-unit-footer">
-          <span>Next focus</span>
-          {unit.nextLesson
-            ? <Link
-                className="review-unit-action"
-                href={getLearningDayHref(unit.nextLesson.id)}
-              >
-                Open {unit.nextLesson.label}
-              </Link>
-            : <strong>Revision loop ready</strong>}
+        <div className="review-unit-badge-row">
+          <span className="review-unit-chip">{state}</span>
+          <span className="review-unit-chip accent">{unit.progress}%</span>
         </div>
       </div>
 
-      <div className="review-unit-visual">
-        <div className="review-unit-visual-head">
-          <span className="review-card-kicker">Lesson graph</span>
-          <strong>{unit.lessons.length} lesson checkpoints</strong>
-        </div>
+      <div className="review-unit-row-stats">
+        <span>
+          <strong>{completedLessons}/{unit.lessons.length}</strong>
+          lessons
+        </span>
+        <span>
+          <strong>{unit.completedSubLessons}/{unit.totalSubLessons}</strong>
+          steps
+        </span>
+        <span>
+          <strong>{strongestLesson?.progress ?? 0}%</strong>
+          best
+        </span>
+      </div>
 
+      <div className="review-unit-row-graph">
         <UnitProgressGraph unit={unit} />
+      </div>
 
-        <div className="review-unit-bar-grid">
-          {unit.lessons.map((lesson, index) => (
-            <div key={lesson.id} className="review-unit-bar-card">
-              <strong>{getShortLessonLabel(lesson.label, index)}</strong>
-              <span>{lesson.progress}%</span>
-            </div>
-          ))}
-        </div>
+      <div className="review-unit-row-action">
+        {unit.nextLesson
+          ? <Link
+              className="review-unit-action"
+              href={getLearningDayHref(unit.nextLesson.id)}
+            >
+              Open {unit.nextLesson.label}
+            </Link>
+          : <strong>Revision ready</strong>}
       </div>
     </article>
   );
@@ -479,19 +429,16 @@ export default function ContentReview() {
         </div>
 
         {completedLessons.length
-          ? <div className="review-grid">
+          ? <div className="review-list">
               {completedLessons.map((lesson) => (
-                <article key={lesson.id} className="review-card">
-                  <div className="review-card-head">
-                    <div>
-                      <div className="review-card-kicker">
-                        {lesson.unitLabel} / {lesson.label}
-                      </div>
-                      <div className="review-card-title">{lesson.title}</div>
-                    </div>
-                    <span className="review-card-state">Complete</span>
+                <article key={lesson.id} className="review-row-card">
+                  <div className="review-row-title">
+                    <span className="review-card-kicker">
+                      {lesson.unitLabel} / {lesson.label}
+                    </span>
+                    <strong>{lesson.title}</strong>
                   </div>
-                  <div className="review-card-metrics">
+                  <div className="review-row-metrics">
                     <span>
                       <JourneyIcon name={lesson.icon} />
                       {lesson.lessons.length} pts
@@ -502,17 +449,15 @@ export default function ContentReview() {
                     </span>
                     <span>100%</span>
                   </div>
-                  <div className="review-resource-grid">
+                  <div className="review-row-actions">
                     {reviewResources.map((resource) => (
                       <Link
                         key={`${lesson.id}-${resource.id}`}
-                        className={`review-resource-card ${resource.tone}`}
+                        className={`review-row-action ${resource.tone}`}
                         href={resource.href(lesson)}
+                        title={resource.action}
                       >
-                        <span className="review-resource-label">
-                          {resource.label}
-                        </span>
-                        <strong>{resource.action}</strong>
+                        {resource.label}
                       </Link>
                     ))}
                   </div>

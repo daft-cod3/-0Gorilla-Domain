@@ -79,7 +79,7 @@ export default function TeacherUploadDetail({ upload }) {
         </div>
       </div>
 
-      <div className="upload-detail-main">
+      <div className="upload-detail-main upload-detail-main-grid">
         {isVideo && (
           <section className="upload-detail-card upload-detail-media-card">
             <div className="upload-detail-section-head">
@@ -157,7 +157,7 @@ export default function TeacherUploadDetail({ upload }) {
           </section>
         )}
 
-        <section className="upload-detail-card">
+        <section className="upload-detail-card upload-detail-support-card">
           <div className="upload-detail-section-head">
             <div>
               <div className="upload-detail-section-title">Highlights</div>
@@ -178,7 +178,7 @@ export default function TeacherUploadDetail({ upload }) {
           </div>
         </section>
 
-        <section className="upload-detail-card">
+        <section className="upload-detail-card upload-detail-support-card">
           <div className="upload-detail-section-head">
             <div>
               <div className="upload-detail-section-title">
@@ -200,7 +200,7 @@ export default function TeacherUploadDetail({ upload }) {
           </div>
         </section>
 
-        <section className="upload-detail-card">
+        <section className="upload-detail-card upload-detail-next-card">
           <div className="upload-detail-section-head">
             <div>
               <div className="upload-detail-section-title">Next steps</div>

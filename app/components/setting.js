@@ -41,67 +41,61 @@ function ThemeIllustration({ darkMode }) {
       </svg>;
 }
 
+function SectionHeader({ kicker, title, subtitle }) {
+  return (
+    <div className="settings-section-header">
+      {kicker && <span className="settings-section-kicker">{kicker}</span>}
+      <div className="settings-section-title">{title}</div>
+      {subtitle && <div className="settings-section-subtitle">{subtitle}</div>}
+    </div>
+  );
+}
+
+function GlassCard({ children, className = "", hover = true }) {
+  return (
+    <div className={`settings-glass-card${hover ? " settings-hoverable" : ""} ${className}`}>
+      {children}
+    </div>
+  );
+}
+
 export default function Setting() {
   const { theme, mounted, toggleTheme } = useThemePreference();
   const [lessonReminders, setLessonReminders] = useState(true);
   const [mentorSharing, setMentorSharing] = useState(true);
   const [autoSave, setAutoSave] = useState(true);
+  const [activeTab, setActiveTab] = useState("workspace");
 
   const darkMode = mounted && theme === "dark";
 
-  const settingPreferences = [
-    {
-      label: "Theme mode",
-      value: darkMode ? "Dark mode active" : "Light mode active",
-      hint: "The full interface updates instantly when you switch theme.",
-      interactive: true,
-      active: darkMode,
-      onToggle: toggleTheme,
-    },
-    {
-      label: "Profile page",
-      value: "Professional learner view",
-      hint: "Profile and progress data now sit in a polished adaptive layout.",
-    },
-    {
-      label: "Alerts",
-      value: lessonReminders ? "Lesson reminders on" : "Lesson reminders off",
-      hint: "Uploads, deadlines, and live sessions remain visible when enabled.",
-      interactive: true,
-      active: lessonReminders,
-      onToggle: () => setLessonReminders((prev) => !prev),
-    },
-    {
-      label: "Mentor sharing",
-      value: mentorSharing ? "Enabled" : "Disabled",
-      hint: "Your assigned mentor can review learner progress when enabled.",
-      interactive: true,
-      active: mentorSharing,
-      onToggle: () => setMentorSharing((prev) => !prev),
-    },
+  const tabs = [
+    { id: "workspace", label: "Workspace" },
+    { id: "preferences", label: "Preferences" },
+    { id: "modules", label: "Modules" },
+    { id: "tools", label: "Tools" },
   ];
 
   const preferenceControls = [
     {
       title: "Lesson reminders",
-      description:
-        "Receive updates for upcoming sessions, reviews, and instructor uploads.",
+      description: "Receive updates for upcoming sessions, reviews, and instructor uploads.",
       active: lessonReminders,
       onToggle: () => setLessonReminders((prev) => !prev),
+      icon: "🔔",
     },
     {
       title: "Mentor sharing",
-      description:
-        "Allow your instructor to monitor your learner dashboard and feedback trail.",
+      description: "Allow your instructor to monitor your learner dashboard and feedback trail.",
       active: mentorSharing,
       onToggle: () => setMentorSharing((prev) => !prev),
+      icon: "👥",
     },
     {
       title: "Auto-save progress",
-      description:
-        "Keep lesson state, profile actions, and revision activity saved as you work.",
+      description: "Keep lesson state, profile actions, and revision activity saved as you work.",
       active: autoSave,
       onToggle: () => setAutoSave((prev) => !prev),
+      icon: "💾",
     },
   ];
 
@@ -111,161 +105,205 @@ export default function Setting() {
     `${studentProfile.attendance} attendance`,
   ];
 
+  const settingPreferences = [
+    {
+      label: "Theme mode",
+      value: darkMode ? "Dark mode active" : "Light mode active",
+      hint: "The full interface updates instantly when you switch theme.",
+      interactive: true,
+      active: darkMode,
+      onToggle: toggleTheme,
+      icon: darkMode ? "🌙" : "☀️",
+    },
+    {
+      label: "Profile page",
+      value: "Professional learner view",
+      hint: "Profile and progress data now sit in a polished adaptive layout.",
+      icon: "👤",
+    },
+    {
+      label: "Alerts",
+      value: lessonReminders ? "Lesson reminders on" : "Lesson reminders off",
+      hint: "Uploads, deadlines, and live sessions remain visible when enabled.",
+      interactive: true,
+      active: lessonReminders,
+      onToggle: () => setLessonReminders((prev) => !prev),
+      icon: "🔔",
+    },
+    {
+      label: "Mentor sharing",
+      value: mentorSharing ? "Enabled" : "Disabled",
+      hint: "Your assigned mentor can review learner progress when enabled.",
+      interactive: true,
+      active: mentorSharing,
+      onToggle: () => setMentorSharing((prev) => !prev),
+      icon: "👥",
+    },
+  ];
+
   return (
-    <section className="settings-page">
-      <div className="settings-section brutal-card settings-enhanced">
-        <div className="settings-section-title">Workspace</div>
-        <div className="settings-section-subtitle">
-          Theme, alerts, and study controls.
+    <section className="settings-page-v2">
+      {/* Page header */}
+      <div className="settings-page-hero">
+        <div className="settings-page-hero-copy">
+          <span className="settings-page-eyebrow">Configuration</span>
+          <h1 className="settings-page-title">Settings</h1>
+          <p className="settings-page-subtitle">
+            Manage your workspace, preferences, and learning tools.
+          </p>
         </div>
-
-        <div className="settings-theme-toggle-wrapper settings-glass">
-          <div className="settings-theme-toggle">
-            <div className="settings-theme-toggle-icon">
-              <ThemeIllustration darkMode={darkMode} />
-            </div>
-            <div className="settings-theme-toggle-content">
-              <h3>{darkMode ? "Dark mode" : "Light mode"}</h3>
-              <p>Switch between bright and low-glare mode.</p>
-            </div>
-          </div>
-          <ToggleButton
-            active={darkMode}
-            onClick={toggleTheme}
-            label="Toggle application theme"
-          />
+        <div className="settings-page-hero-chips">
+          {workspaceChips.map((chip) => (
+            <span key={chip} className="settings-hero-chip">{chip}</span>
+          ))}
         </div>
+      </div>
 
-        <div className="settings-preferences settings-glass">
-          {preferenceControls.map((item) => (
-            <div
-              key={item.title}
-              className="settings-preference-item settings-interactive"
-            >
-              <div className="settings-preference-content">
-                <div className="settings-preference-title">{item.title}</div>
-                <div className="settings-preference-description">
-                  {item.description}
-                </div>
+      {/* Tab bar */}
+      <div className="settings-tab-bar" role="tablist">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            role="tab"
+            className={`settings-tab-btn${activeTab === tab.id ? " active" : ""}`}
+            onClick={() => setActiveTab(tab.id)}
+            aria-selected={activeTab === tab.id}
+          >
+            {tab.label}
+            {activeTab === tab.id && <span className="settings-tab-indicator" />}
+          </button>
+        ))}
+      </div>
+
+      {/* Workspace tab */}
+      {activeTab === "workspace" && (
+        <div className="settings-tab-content settings-enhanced">
+          {/* Theme toggle */}
+          <GlassCard className="settings-theme-block">
+            <div className="settings-theme-row">
+              <div className="settings-theme-icon-wrap">
+                <ThemeIllustration darkMode={darkMode} />
+              </div>
+              <div className="settings-theme-copy">
+                <h3>{darkMode ? "Dark mode" : "Light mode"}</h3>
+                <p>Switch between bright and low-glare interface.</p>
               </div>
               <ToggleButton
-                active={item.active}
-                onClick={item.onToggle}
-                label={`Toggle ${item.title}`}
+                active={darkMode}
+                onClick={toggleTheme}
+                label="Toggle application theme"
               />
             </div>
-          ))}
-        </div>
+          </GlassCard>
 
-        <div className="settings-chips settings-glass">
-          {workspaceChips.map((chip) => (
-            <span key={chip} className="settings-chip settings-interactive">
-              {chip}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="settings-profile-layout">
-        <section className="settings-profile-panel brutal-card settings-glass settings-enhanced">
-          <div className="settings-profile-section-head">
-            <div>
-              <div className="settings-profile-section-kicker">Preferences</div>
-              <h3 className="settings-profile-section-title">
-                Workspace setup
-              </h3>
-            </div>
-          </div>
-
-          <div className="settings-profile-detail-grid">
-            {settingPreferences.map((detail, index) => (
-              <article
-                key={detail.label}
-                className="settings-profile-detail-card settings-interactive"
-                style={{ "--tile-delay": `${index * 70}ms` }}
-              >
-                <div className="settings-profile-detail-header">
-                  <div className="settings-profile-detail-label">
-                    {detail.label}
-                  </div>
-                  {detail.interactive
-                    ? <ToggleButton
-                        active={detail.active}
-                        onClick={detail.onToggle}
-                        label={`Toggle ${detail.label}`}
-                      />
-                    : null}
+          {/* Preference controls */}
+          <div className="settings-prefs-grid">
+            {preferenceControls.map((item, i) => (
+              <GlassCard key={item.title} className="settings-pref-card" style={{ "--delay": `${i * 60}ms` }}>
+                <div className="settings-pref-icon">{item.icon}</div>
+                <div className="settings-pref-body">
+                  <div className="settings-pref-title">{item.title}</div>
+                  <div className="settings-pref-desc">{item.description}</div>
                 </div>
-                <div className="settings-profile-detail-value">
-                  {detail.value}
-                </div>
-                <div className="settings-profile-detail-hint">
-                  {detail.hint}
-                </div>
-              </article>
+                <ToggleButton
+                  active={item.active}
+                  onClick={item.onToggle}
+                  label={`Toggle ${item.title}`}
+                />
+              </GlassCard>
             ))}
           </div>
-        </section>
+        </div>
+      )}
 
-        <aside className="settings-profile-side">
-          <section className="settings-profile-panel settings-progress-panel brutal-card settings-glass settings-enhanced">
-            <div className="settings-profile-section-kicker">Modules</div>
-            <h3 className="settings-profile-section-title">Study visibility</h3>
-            <div className="settings-progress-stack">
-              {moduleProgress.map((module) => (
+      {/* Preferences tab */}
+      {activeTab === "preferences" && (
+        <div className="settings-tab-content settings-enhanced">
+          <div className="settings-detail-grid">
+            {settingPreferences.map((detail, index) => (
+              <GlassCard
+                key={detail.label}
+                className="settings-detail-card"
+                style={{ "--delay": `${index * 70}ms` }}
+              >
+                <div className="settings-detail-top">
+                  <span className="settings-detail-icon">{detail.icon}</span>
+                  <div className="settings-detail-label">{detail.label}</div>
+                  {detail.interactive && (
+                    <ToggleButton
+                      active={detail.active}
+                      onClick={detail.onToggle}
+                      label={`Toggle ${detail.label}`}
+                    />
+                  )}
+                </div>
+                <div className="settings-detail-value">{detail.value}</div>
+                <div className="settings-detail-hint">{detail.hint}</div>
+              </GlassCard>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Modules tab */}
+      {activeTab === "modules" && (
+        <div className="settings-tab-content settings-enhanced">
+          <GlassCard className="settings-modules-card" hover={false}>
+            <SectionHeader kicker="Modules" title="Study visibility" />
+            <div className="settings-modules-list">
+              {moduleProgress.map((module, i) => (
                 <div
                   key={module.label}
-                  className="settings-progress-item settings-interactive"
+                  className="settings-module-row"
+                  style={{ "--delay": `${i * 50}ms` }}
                 >
-                  <div className="settings-progress-item-row">
-                    <span>{module.label}</span>
-                    <span>{module.value}%</span>
+                  <div className="settings-module-row-head">
+                    <span className="settings-module-label">{module.label}</span>
+                    <span className="settings-module-pct">{module.value}%</span>
                   </div>
-                  <div
-                    className="settings-progress-mini-track"
-                    aria-hidden="true"
-                  >
-                    <span style={{ width: `${module.value}%` }} />
+                  <div className="settings-module-track">
+                    <span
+                      className="settings-module-fill"
+                      style={{ width: `${module.value}%` }}
+                    />
                   </div>
                 </div>
               ))}
             </div>
-          </section>
+          </GlassCard>
+        </div>
+      )}
 
-          <section className="settings-profile-panel settings-tools-panel brutal-card settings-glass settings-enhanced">
-            <div className="settings-profile-section-kicker">Tools</div>
-            <h3 className="settings-profile-section-title">Quick controls</h3>
-            <div className="settings-tools-list">
-              {profileTools.map((tool, index) => (
-                <article
-                  key={tool.title}
-                  className="settings-tool-card settings-interactive"
-                  style={{ "--tile-delay": `${index * 90}ms` }}
-                >
-                  <div>
-                    <div className="settings-tool-title">{tool.title}</div>
-                    <div className="settings-tool-description">
-                      {tool.description}
-                    </div>
-                  </div>
-                  <button
-                    className="ghost-button settings-interactive"
-                    type="button"
-                  >
-                    Manage
-                  </button>
-                </article>
-              ))}
+      {/* Tools tab */}
+      {activeTab === "tools" && (
+        <div className="settings-tab-content settings-enhanced">
+          <div className="settings-tools-grid">
+            {profileTools.map((tool, index) => (
+              <GlassCard
+                key={tool.title}
+                className="settings-tool-item"
+                style={{ "--delay": `${index * 80}ms` }}
+              >
+                <div className="settings-tool-body">
+                  <div className="settings-tool-title">{tool.title}</div>
+                  <div className="settings-tool-desc">{tool.description}</div>
+                </div>
+                <button className="settings-tool-btn" type="button">
+                  Manage
+                </button>
+              </GlassCard>
+            ))}
+          </div>
+
+          <GlassCard className="settings-next-session-card" hover={false}>
+            <div className="settings-next-session-label">Next practical</div>
+            <div className="settings-next-session-value">
+              {studentProfile.nextSession}
             </div>
-            <div className="settings-next-session settings-glass">
-              <div className="settings-next-session-label">Next practical</div>
-              <div className="settings-next-session-value">
-                {studentProfile.nextSession}
-              </div>
-            </div>
-          </section>
-        </aside>
-      </div>
+          </GlassCard>
+        </div>
+      )}
     </section>
   );
 }
