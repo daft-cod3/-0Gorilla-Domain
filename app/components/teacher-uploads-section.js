@@ -63,12 +63,6 @@ function UploadCard({ upload, unseen, onMarkSeen }) {
           {unseen ? "Waiting for review" : "Marked as seen"}
         </span>
         <div className="teacher-card-actions">
-          <Link
-            className="teacher-secondary-action"
-            href={upload.relatedLessonHref}
-          >
-            Lesson
-          </Link>
           <Link className="teacher-primary-action" href={upload.href}>
             {upload.action}
           </Link>
@@ -123,14 +117,21 @@ export default function TeacherUploadsSection() {
     });
   }
 
+  const dashboardUploads = [
+    "video-upload",
+    "image-upload",
+    "resource-upload",
+  ]
+    .map((id) => teacherUploads.find((upload) => upload.id === id))
+    .filter(Boolean);
+
   return (
     <section className="dash-section teacher-uploads-section">
       <div className="dash-section-head">
         <div>
           <div className="dash-section-title">Teacher uploads</div>
           <div className="dash-section-subtitle">
-            Compact upload cards with instant seen-state updates and quick
-            routes into the related lesson or full upload detail page.
+            Essential revision content grouped as videos, images, and notes.
           </div>
         </div>
         <div className="teacher-uploads-summary">
@@ -141,11 +142,17 @@ export default function TeacherUploadsSection() {
         </div>
       </div>
 
-      <div className="teacher-grid">
-        {teacherUploads.map((upload) => (
+      <div className="teacher-grid teacher-grid-three">
+        {dashboardUploads.map((upload) => (
           <UploadCard
             key={upload.id}
-            upload={upload}
+            upload={{
+              ...upload,
+              type:
+                upload.id === "resource-upload"
+                  ? "Notes / links"
+                  : upload.type,
+            }}
             unseen={Boolean(optimisticUnseenMap[upload.id])}
             onMarkSeen={handleMarkSeen}
           />

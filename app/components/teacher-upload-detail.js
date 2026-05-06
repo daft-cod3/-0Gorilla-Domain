@@ -1,6 +1,31 @@
 import Link from "next/link";
 
+const videoRows = [
+  { label: "Priority call review", duration: "3:20" },
+  { label: "Mirror and signal timing", duration: "2:45" },
+  { label: "Entry speed and gap choice", duration: "2:05" },
+  { label: "Final turn commitment", duration: "3:40" },
+];
+
+const imageItems = [
+  { label: "Lane arrows", caption: "6 examples", tone: "blue" },
+  { label: "Road markings", caption: "4 close-ups", tone: "green" },
+  { label: "Junction signs", caption: "5 scenes", tone: "gold" },
+  { label: "Priority lines", caption: "3 comparisons", tone: "rose" },
+];
+
+const noteCards = [
+  { label: "Warning signs", description: "Quick recall prompts" },
+  { label: "Regulatory signs", description: "Action-based notes" },
+  { label: "Directional signs", description: "Route reminders" },
+  { label: "Safety tips", description: "Fast revision cues" },
+];
+
 export default function TeacherUploadDetail({ upload }) {
+  const isVideo = upload.id === "video-upload";
+  const isImage = upload.id === "image-upload";
+  const isNotes = upload.id === "resource-upload";
+
   return (
     <section className="upload-detail-page">
       <div className={`upload-detail-hero ${upload.accent}`}>
@@ -55,6 +80,83 @@ export default function TeacherUploadDetail({ upload }) {
       </div>
 
       <div className="upload-detail-main">
+        {isVideo && (
+          <section className="upload-detail-card upload-detail-media-card">
+            <div className="upload-detail-section-head">
+              <div>
+                <div className="upload-detail-section-title">Video guide rows</div>
+                <div className="upload-detail-section-subtitle">
+                  Labelled video segments to review in order.
+                </div>
+              </div>
+            </div>
+            <div className="upload-detail-media-list">
+              {videoRows.map((item) => (
+                <article key={item.label} className="upload-detail-media-row">
+                  <div>
+                    <strong>{item.label}</strong>
+                    <p>{item.duration}</p>
+                  </div>
+                  <span>Play</span>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {isImage && (
+          <section className="upload-detail-card upload-detail-media-card">
+            <div className="upload-detail-section-head">
+              <div>
+                <div className="upload-detail-section-title">Image review</div>
+                <div className="upload-detail-section-subtitle">
+                  Visual reference cards for quick memory recall.
+                </div>
+              </div>
+            </div>
+            <div className="upload-detail-image-grid">
+              {imageItems.map((item) => (
+                <article
+                  key={item.label}
+                  className={`upload-detail-image-card ${item.tone}`}
+                >
+                  <span className="upload-detail-image-thumb" aria-hidden="true" />
+                  <div>
+                    <strong>{item.label}</strong>
+                    <p>{item.caption}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {isNotes && (
+          <section className="upload-detail-card upload-detail-media-card">
+            <div className="upload-detail-section-head">
+              <div>
+                <div className="upload-detail-section-title">Notes and links</div>
+                <div className="upload-detail-section-subtitle">
+                  Compact guidance cards for reference and quick review.
+                </div>
+              </div>
+            </div>
+            <div className="upload-detail-note-grid">
+              {noteCards.map((item) => (
+                <article key={item.label} className="upload-detail-note-card">
+                  <div>
+                    <strong>{item.label}</strong>
+                    <p>{item.description}</p>
+                  </div>
+                  <Link href="/dashboard" className="upload-detail-note-link">
+                    View
+                  </Link>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="upload-detail-card">
           <div className="upload-detail-section-head">
             <div>
