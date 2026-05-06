@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getLearningDayHref, learningUnits } from "..";
 import {
@@ -227,10 +228,31 @@ function Tooltip({ href, label }) {
   );
 }
 
+function UnitBanner({ unit }) {
+  return (
+    <section className="lp-banner">
+      <div className="lp-banner-copy">
+        <span className="lp-banner-eyebrow">
+          {unit.label} / {unit.completedLessons} of {unit.lessons.length}{" "}
+          lessons
+        </span>
+        <h2 className="lp-banner-title">{unit.title}</h2>
+        <p className="lp-banner-guide">{unit.summary}</p>
+      </div>
+      <div className="lp-banner-progress">
+        <span>{unit.progress}%</span>
+        <div className="lp-banner-progress-track" aria-hidden="true">
+          <i style={{ width: `${unit.progress}%` }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ════════════════════════════════════════
    SINGLE LESSON NODE
 ════════════════════════════════════════ */
-function LessonNode({ lesson, lessonIndex, isCurrent, onSelect }) {
+function LessonNode({ lesson, lessonIndex, isCurrent, navigateLesson }) {
   const done = lesson.progress === 100;
   const locked = !done && lesson.isLocked;
   const future = !done && !isCurrent;
@@ -244,6 +266,11 @@ function LessonNode({ lesson, lessonIndex, isCurrent, onSelect }) {
     : Math.min(4, Math.round((completedSteps / totalSteps) * 4));
   const segmentColor = "#58cc02";
   const emptySegmentColor = "#d1d5db";
+
+  const starRating =
+    completedSteps === 0
+      ? 0
+      : Math.min(3, Math.ceil((completedSteps / totalSteps) * 3));
 
   let iconType = ICON_SEQUENCE[lessonIndex % ICON_SEQUENCE.length];
   let iconColor = "#c4c9d4";
@@ -280,8 +307,12 @@ function LessonNode({ lesson, lessonIndex, isCurrent, onSelect }) {
 
       <button
         type="button"
-        className={cls}
-        onClick={() => !inert && onSelect(lesson.id)}
+        className={`lp-node-interactive ${cls}`}
+        data-current={isCurrent && !done ? "true" : "false"}
+        onClick={() => {
+          if (inert) return;
+          navigateLesson(lesson.id);
+        }}
         aria-label={`${day}: ${lesson.title}${inert ? " unavailable" : ""}`}
         disabled={inert}
         style={{
@@ -292,50 +323,25 @@ function LessonNode({ lesson, lessonIndex, isCurrent, onSelect }) {
         }}
       >
         {isCurrent && !done && (
-          <span className="lp-node-ring" aria-hidden="true" />
+          <span
+            className="lp-node-ring lp-node-ring-animated"
+            aria-hidden="true"
+          />
         )}
-        <span className="lp-node-icon">
+        <span className="lp-node-icon lp-node-icon-interactive">
           <NodeIcon type={iconType} color={iconColor} />
         </span>
+        {isCurrent && !done && (
+          <span className="lp-node-label lp-node-label-pulse">START</span>
+        )}
       </button>
 
-      <span className="lp-node-day">{day}</span>
-    </div>
-  );
-}
-
-/* ════════════════════════════════════════
-   UNIT BANNER  (green strip)
-════════════════════════════════════════ */
-function UnitBanner({ unit }) {
-  return (
-    <div className="lp-banner">
-      <div className="lp-banner-copy">
-        <span className="lp-banner-eyebrow">
-          Section {unit.number}, {unit.label}
-        </span>
-        <span className="lp-banner-title">{unit.title}</span>
+      {/* Stars below the lesson circle */}
+      <div className="lp-node-stars lp-node-stars-interactive">
+        <Stars earned={starRating} />
       </div>
-      <button type="button" className="lp-banner-guide" aria-label="Unit guide">
-        <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
-          <title>Unit guide</title>
-          <rect
-            x="4"
-            y="4"
-            width="16"
-            height="16"
-            rx="3"
-            stroke="currentColor"
-            strokeWidth="2.2"
-          />
-          <path
-            d="M8 8h8M8 12h6M8 16h4"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      </button>
+
+      <span className="lp-node-day lp-node-day-interactive">{day}</span>
     </div>
   );
 }
@@ -343,7 +349,7 @@ function UnitBanner({ unit }) {
 /* ════════════════════════════════════════
    FULL UNIT PATH SECTION
 ════════════════════════════════════════ */
-function UnitSection({ unit, currentLessonId, onSelectLesson }) {
+function UnitSection({ unit, currentLessonId, onNavigateLesson }) {
   const chestUnlocked = unit.progress > 0;
   const chestClaimed = unit.progress === 100;
   const lessonsLeft = unit.lessons.filter((l) => l.progress < 100).length;
@@ -371,7 +377,7 @@ function UnitSection({ unit, currentLessonId, onSelectLesson }) {
                   lesson={lesson}
                   lessonIndex={i}
                   isCurrent={isCurrent}
-                  onSelect={onSelectLesson}
+                  navigateLesson={onNavigateLesson}
                 />
 
                 {i === MASCOT_AT && (
@@ -434,11 +440,9 @@ const _initCur = getCurrentLesson(_init);
    ROOT SHELL
 ════════════════════════════════════════ */
 export default function LearningPathShell() {
+  const router = useRouter();
   const [units, setUnits] = useState(() => _init);
   const [hydrated, setHydrated] = useState(false);
-  const [_activeId, setActiveId] = useState(
-    _initCur?.id ?? _init[0]?.lessons[0]?.id ?? "",
-  );
   const [activeUnitIndex, setActiveUnitIndex] = useState(0);
 
   const currentLesson = getCurrentLesson(units);
@@ -447,7 +451,6 @@ export default function LearningPathShell() {
     const h = hydrateLearningProgress(learningUnits);
     const cur = getCurrentLesson(h);
     setUnits(h);
-    setActiveId(cur?.id ?? h[0]?.lessons[0]?.id ?? "");
     const unitIndex = h.findIndex((unit) =>
       unit.lessons.some((lesson) => lesson.id === cur?.id),
     );
@@ -466,7 +469,8 @@ export default function LearningPathShell() {
   const pct = totalSteps ? Math.round((completedSteps / totalSteps) * 100) : 0;
   const activeUnit = units[activeUnitIndex] ?? units[0];
   const canGoPrev = activeUnitIndex > 0;
-  const canGoNext = activeUnitIndex < units.length - 1;
+  const canGoNext =
+    activeUnitIndex < units.length - 1 && (activeUnit?.progress ?? 0) === 100;
 
   return (
     <div className="lp-shell">
@@ -487,7 +491,9 @@ export default function LearningPathShell() {
               key={activeUnit.id}
               unit={activeUnit}
               currentLessonId={currentLesson?.id ?? ""}
-              onSelectLesson={setActiveId}
+              onNavigateLesson={(lessonId) =>
+                router.push(getLearningDayHref(lessonId))
+              }
             />
           : null}
       </div>

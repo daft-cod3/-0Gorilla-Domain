@@ -113,13 +113,13 @@ export default function Setting() {
 
   return (
     <section className="settings-page">
-      <div className="settings-section brutal-card">
+      <div className="settings-section brutal-card settings-enhanced">
         <div className="settings-section-title">Workspace</div>
         <div className="settings-section-subtitle">
           Theme, alerts, and study controls.
         </div>
 
-        <div className="settings-theme-toggle-wrapper">
+        <div className="settings-theme-toggle-wrapper settings-glass">
           <div className="settings-theme-toggle">
             <div className="settings-theme-toggle-icon">
               <ThemeIllustration darkMode={darkMode} />
@@ -136,9 +136,12 @@ export default function Setting() {
           />
         </div>
 
-        <div className="settings-preferences">
+        <div className="settings-preferences settings-glass">
           {preferenceControls.map((item) => (
-            <div key={item.title} className="settings-preference-item">
+            <div
+              key={item.title}
+              className="settings-preference-item settings-interactive"
+            >
               <div className="settings-preference-content">
                 <div className="settings-preference-title">{item.title}</div>
                 <div className="settings-preference-description">
@@ -154,9 +157,9 @@ export default function Setting() {
           ))}
         </div>
 
-        <div className="settings-chips">
+        <div className="settings-chips settings-glass">
           {workspaceChips.map((chip) => (
-            <span key={chip} className="settings-chip">
+            <span key={chip} className="settings-chip settings-interactive">
               {chip}
             </span>
           ))}
@@ -164,7 +167,7 @@ export default function Setting() {
       </div>
 
       <div className="settings-profile-layout">
-        <section className="settings-profile-panel brutal-card">
+        <section className="settings-profile-panel brutal-card settings-glass settings-enhanced">
           <div className="settings-profile-section-head">
             <div>
               <div className="settings-profile-section-kicker">Preferences</div>
@@ -178,7 +181,7 @@ export default function Setting() {
             {settingPreferences.map((detail, index) => (
               <article
                 key={detail.label}
-                className="settings-profile-detail-card"
+                className="settings-profile-detail-card settings-interactive"
                 style={{ "--tile-delay": `${index * 70}ms` }}
               >
                 <div className="settings-profile-detail-header">
@@ -205,12 +208,15 @@ export default function Setting() {
         </section>
 
         <aside className="settings-profile-side">
-          <section className="settings-profile-panel settings-progress-panel brutal-card">
+          <section className="settings-profile-panel settings-progress-panel brutal-card settings-glass settings-enhanced">
             <div className="settings-profile-section-kicker">Modules</div>
             <h3 className="settings-profile-section-title">Study visibility</h3>
             <div className="settings-progress-stack">
               {moduleProgress.map((module) => (
-                <div key={module.label} className="settings-progress-item">
+                <div
+                  key={module.label}
+                  className="settings-progress-item settings-interactive"
+                >
                   <div className="settings-progress-item-row">
                     <span>{module.label}</span>
                     <span>{module.value}%</span>
@@ -226,14 +232,14 @@ export default function Setting() {
             </div>
           </section>
 
-          <section className="settings-profile-panel settings-tools-panel brutal-card">
+          <section className="settings-profile-panel settings-tools-panel brutal-card settings-glass settings-enhanced">
             <div className="settings-profile-section-kicker">Tools</div>
             <h3 className="settings-profile-section-title">Quick controls</h3>
             <div className="settings-tools-list">
               {profileTools.map((tool, index) => (
                 <article
                   key={tool.title}
-                  className="settings-tool-card"
+                  className="settings-tool-card settings-interactive"
                   style={{ "--tile-delay": `${index * 90}ms` }}
                 >
                   <div>
@@ -242,13 +248,16 @@ export default function Setting() {
                       {tool.description}
                     </div>
                   </div>
-                  <button className="ghost-button" type="button">
+                  <button
+                    className="ghost-button settings-interactive"
+                    type="button"
+                  >
                     Manage
                   </button>
                 </article>
               ))}
             </div>
-            <div className="settings-next-session">
+            <div className="settings-next-session settings-glass">
               <div className="settings-next-session-label">Next practical</div>
               <div className="settings-next-session-value">
                 {studentProfile.nextSession}

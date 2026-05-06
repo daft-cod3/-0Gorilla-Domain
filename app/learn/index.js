@@ -4,7 +4,7 @@ const unitBlueprints = [
     number: 1,
     label: "Unit 1",
     title: "Road Foundations",
-    summary: "Five open lessons to build the core driving routine.",
+    summary: "Monday to Friday lessons that build the core driving routine.",
     unlocked: true,
   },
   {
@@ -13,7 +13,7 @@ const unitBlueprints = [
     label: "Unit 2",
     title: "Live Road Reading",
     summary:
-      "Five open lessons focused on live road reading and decision timing.",
+      "Monday to Friday lessons focused on live road reading and decision timing.",
     unlocked: true,
   },
   {
@@ -22,7 +22,7 @@ const unitBlueprints = [
     label: "Unit 3",
     title: "Safe Maneuvers",
     summary:
-      "Five open lessons on parking, roundabouts, and emergency control.",
+      "Monday to Friday lessons on parking, roundabouts, and emergency control.",
     unlocked: true,
   },
   {
@@ -31,16 +31,7 @@ const unitBlueprints = [
     label: "Unit 4",
     title: "Exam Readiness",
     summary:
-      "Five open lessons for mock tests, revision loops, and final prep.",
-    unlocked: true,
-  },
-  {
-    id: "unit-5",
-    number: 5,
-    label: "Unit 5",
-    title: "Road Test Mastery",
-    summary:
-      "Five open lessons for final test preparation and confidence building.",
+      "Monday to Friday lessons for mock tests, revision loops, and final prep.",
     unlocked: true,
   },
 ];
@@ -524,9 +515,7 @@ const lessonBlueprints = [
   ],
 ];
 
-const completionBlueprint = {
-  "unit-1": [4, 3, 2, 1, 0],
-};
+const completionBlueprint = {};
 
 const subLessonBlueprints = [
   {

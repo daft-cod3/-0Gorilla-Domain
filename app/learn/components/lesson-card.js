@@ -51,6 +51,35 @@ function getNodeSize(lesson, isRecommended) {
   return 96;
 }
 
+function getPerformanceRating(lesson) {
+  if (lesson.progress === 0) return 0;
+  if (lesson.progress < 40) return 1;
+  if (lesson.progress < 70) return 2;
+  return 3;
+}
+
+function PerformanceStars({ lesson }) {
+  const rating = getPerformanceRating(lesson);
+  return (
+    <div
+      className="lp-performance-stars"
+      role="img"
+      aria-label={`Performance: ${rating} out of 3 stars`}
+    >
+      {[1, 2, 3].map((star) => (
+        <svg
+          key={star}
+          viewBox="0 0 32 32"
+          className={`lp-star ${star <= rating ? "filled" : "empty"}`}
+          aria-hidden="true"
+        >
+          <path d="M16 4l3.1 6.9 7.6 1-5.5 5.4 1.3 7.6L16 21.2l-6.5 3.7 1.3-7.6L5.3 11.9l7.6-1z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
 function LessonGlyph({ lesson, isRecommended }) {
   if (lesson.isLocked) {
     return (
@@ -157,6 +186,9 @@ export default function LessonCard({
                 : null}
             </Link>}
       </div>
+      {lesson.progress > 0 && !lesson.isLocked && (
+        <PerformanceStars lesson={lesson} />
+      )}
     </article>
   );
 }

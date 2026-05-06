@@ -8,6 +8,7 @@ import {
   learningDayIds,
   learningDays,
 } from "../../learn";
+import ActiveLessonWorkspace from "../../learn/components/active-lesson-workspace";
 import { JourneyIcon, LessonIcon } from "../../learn/icons";
 
 function getLessonParagraphs(lesson) {
@@ -160,6 +161,8 @@ export default async function LearningDayPage({ params }) {
             <JourneyIcon name={lesson.icon} />
           </div>
         </div>
+
+        <ActiveLessonWorkspace lesson={lesson} />
 
         <div className="lesson-page-grid">
           <div className="lesson-page-main">
